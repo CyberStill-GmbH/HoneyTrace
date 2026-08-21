@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://honeytrace.local/schemas/normalized_event.schema.json",
+  "title": "HoneyTrace NormalizedEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "timestamp", "trace_id", "event_type", "raw_source", "sequence"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.1"},
+    "event_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "ingest_timestamp": {"type": "string", "format": "date-time"},
+    "trace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "sequence": {"type": "integer", "minimum": 0},
+    "event_type": {"type": "string", "maxLength": 64},
+    "raw_source": {"type": "string", "maxLength": 64},
+    "source_ip": {"type": ["string", "null"], "maxLength": 128},
+    "session_id": {"type": ["string", "null"], "maxLength": 128},
+    "method": {"type": ["string", "null"], "maxLength": 16},
+    "path": {"type": ["string", "null"], "maxLength": 256},
+    "status_code": {"type": ["integer", "null"], "minimum": 100, "maximum": 599},
+    "duration_ms": {"type": ["number", "null"], "minimum": 0},
+    "user_agent": {"type": ["string", "null"], "maxLength": 256},
+    "vulnerability": {"type": ["string", "null"], "maxLength": 64},
+    "outcome": {"type": ["string", "null"], "maxLength": 128},
+    "payload_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "payload_size": {"type": ["integer", "null"], "minimum": 0},
+    "entities": {"type": "array", "maxItems": 16, "items": {"$ref": "#/$defs/entity"}},
+    "causes": {"type": "array", "maxItems": 16, "items": {"type": "string", "maxLength": 128}},
+    "metadata": {"type": "object", "maxProperties": 32}
+  },
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 128},
+        "kind": {"type": "string", "enum": ["actor", "session", "endpoint", "user", "order", "product", "file", "database", "process", "socket"]},
+        "role": {"type": "string", "maxLength": 64}
+      }
+    }
+  }
+}
