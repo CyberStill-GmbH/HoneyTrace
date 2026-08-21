@@ -1,0 +1,47 @@
+name: Security checks
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  dependency-review:
+    name: Revisión de dependencias
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+
+  secrets-scan:
+    name: Escaneo de secretos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+
+  container-scan:
+    name: Escaneo de contenedores e IaC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+
+  isolation-check:
+    name: Verificación de aislamiento del honeypot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar reglas de red del honeypot
+        run: |
+          echo "Verifica manualmente que docker-compose.honeypot.yml no expone la red hacia el resto de la infraestructura (ver docs/arquitectura/threat-model.md)"

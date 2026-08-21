@@ -1,0 +1,44 @@
+name: "Tarea de investigación"
+description: Proponer o registrar una tarea relacionada con la línea de investigación de HoneyTrace
+title: "[Investigación] "
+labels: ["investigacion"]
+body:
+  - type: textarea
+    id: pregunta
+    attributes:
+      label: Pregunta de investigación relacionada
+      description: "¿A qué pregunta de docs/investigacion/preguntas-de-investigacion.md responde esta tarea?"
+    validations:
+      required: true
+  - type: textarea
+    id: hipotesis
+    attributes:
+      label: Hipótesis u objetivo
+    validations:
+      required: true
+  - type: textarea
+    id: metodo
+    attributes:
+      label: Método propuesto
+      description: Cómo se experimentará, qué datos se necesitan, qué ataques controlados se ejecutarán, qué métricas se usarán
+    validations:
+      required: true
+  - type: textarea
+    id: datos
+    attributes:
+      label: Dataset / escenario de ataque a usar
+      description: Referencia a tests/fixtures o a un escenario nuevo en docs/testing/escenarios-de-ataque.md
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de éxito
+    validations:
+      required: true
+  - type: checkboxes
+    id: entregable
+    attributes:
+      label: Entregable esperado
+      options:
+        - label: Resultado documentado en research/results/
+        - label: Actualización de docs/investigacion/estado-del-arte.md o referencias.bib
+        - label: Métrica añadida a la comparación con Wazuh
