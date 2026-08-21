@@ -22,7 +22,7 @@ jobs:
       - name: Unit and integration tests
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/honeypot
-        run: pytest -q honeypot/tests collector/tests
+        run: pytest -q honeypot/tests collector/tests normalizer/tests
 
   e2e:
     name: Docker E2E against isolated honeypot
