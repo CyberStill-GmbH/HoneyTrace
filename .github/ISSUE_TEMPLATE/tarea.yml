@@ -1,0 +1,45 @@
+name: "Tarea de desarrollo"
+description: Tarea técnica del backlog (código, infraestructura o documentación)
+title: "[Tarea] "
+labels: ["tarea"]
+body:
+  - type: dropdown
+    id: componente
+    attributes:
+      label: Componente
+      options:
+        - Web Honeypot
+        - Observabilidad / Instrumentación
+        - Event Collector
+        - Normalizer
+        - Correlation Engine
+        - Attack Reconstruction
+        - SIEM (Wazuh)
+        - API HoneyTrace
+        - Frontend (React/Three.js)
+        - Infraestructura / CI-CD
+        - Documentación
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción
+    validations:
+      required: true
+  - type: textarea
+    id: criterios-aceptacion
+    attributes:
+      label: Criterios de aceptación
+      description: Lista de condiciones verificables para dar la tarea por terminada (Definition of Done)
+    validations:
+      required: true
+  - type: textarea
+    id: dependencias
+    attributes:
+      label: Dependencias
+      description: Otras issues, ADRs o esquemas de los que depende esta tarea
+  - type: input
+    id: estimacion
+    attributes:
+      label: Estimación (story points)

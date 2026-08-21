@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  python-tests:
+    name: Unit and integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install -r honeypot/requirements-dev.txt
+      - name: Compile sources
+        run: python -m compileall -q honeypot/app collector scripts
+      - name: Unit and integration tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/honeypot
+        run: pytest -q honeypot/tests collector/tests
+
+  e2e:
+    name: Docker E2E against isolated honeypot
+    runs-on: ubuntu-latest
+    needs: python-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install E2E dependencies
+        run: python -m pip install httpx==0.28.1 pytest==8.4.2
+      - name: Build and start isolated stack
+        working-directory: honeypot
+        run: docker compose up -d --build
+      - name: Wait for healthcheck
+        run: |
+          for i in {1..30}; do curl --fail http://127.0.0.1:8000/health && exit 0; sleep 2; done
+          exit 1
+      - name: Run E2E scenarios
+        env:
+          HONEYPOT_BASE_URL: http://127.0.0.1:8000
+          HONEYTRACE_LOG_FILE: honeypot/logs/events.ndjson
+        run: pytest -q tests/e2e
+      - name: Run Raspberry Pi hardware contract on Linux runner
+        env:
+          HONEYPOT_BASE_URL: http://127.0.0.1:8000
+          HONEYTRACE_LOG_FILE: honeypot/logs/events.ndjson
+        run: pytest -q tests/physical -m physical
+      - name: Capture service logs
+        if: always()
+        working-directory: honeypot
+        run: docker compose logs --no-color
+      - name: Stop stack
+        if: always()
+        working-directory: honeypot
+        run: docker compose down -v
+
+  go-cli:
+    name: Build and test controlled Go CLI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - name: Format check
+        working-directory: scripts/honeytrace-cli
+        run: test -z "$(gofmt -l .)"
+      - name: Build
+        working-directory: scripts/honeytrace-cli
+        run: go build ./...
+      - name: Test
+        working-directory: scripts/honeytrace-cli
+        run: go test ./...
