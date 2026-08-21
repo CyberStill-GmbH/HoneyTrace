@@ -80,3 +80,19 @@ jobs:
       - name: Test
         working-directory: scripts/honeytrace-cli
         run: go test ./...
+
+  rust-engine-scaffold:
+    name: Rust engine scaffold
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt
+      - name: Format check
+        run: cargo fmt --manifest-path engine/Cargo.toml -- --check
+      - name: Compile check
+        run: cargo check --manifest-path engine/Cargo.toml
+      - name: Contract tests
+        run: cargo test --manifest-path engine/Cargo.toml
