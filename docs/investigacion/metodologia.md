@@ -6,13 +6,25 @@ Investigación aplicada de carácter **experimental**, basada en la construcció
 
 ## Fases
 
-1. **Diseño e implementación del MVP**: honeypot → telemetría → collector → normalizer → correlation engine → attack reconstruction (ver `docs/requisitos/requisitos.md`).
+1. **Diseño e implementación del MVP**: honeypot → telemetría → `collector/` → `normalizer/` → correlation engine Rust → attack reconstruction (ver `docs/requisitos/requisitos.md`). Collector y Normalizer son procesos lógicos separados; el Engine Rust solo consume `NormalizedEvent`.
 2. **Definición de escenarios de ataque controlados**: cada escenario se documenta en `docs/testing/escenarios-de-ataque.md`, con su *ground truth* (secuencia real de acciones ejecutadas).
 3. **Ejecución de experimentos**: cada ejecución de un escenario contra HoneyTrace (y en paralelo contra Wazuh) se registra en `research/experiments/`.
 4. **Recolección de datos**: telemetría cruda, eventos normalizados y `AttackTrace` producido se guardan como datasets versionados en `research/datasets/` (o como fixtures sintéticas en `tests/fixtures/` para desarrollo sin hardware).
 5. **Análisis y comparación**: se compara el `AttackTrace` reconstruido contra el *ground truth*, y las alertas de Wazuh contra el mismo *ground truth*, usando las métricas definidas abajo. Resultados en `research/analysis/` y `research/results/`.
 6. **Síntesis**: los hallazgos alimentan de vuelta `estado-del-arte.md` y, si corresponde, ajustan el diseño del Correlation Engine (documentado vía ADR).
 7. **Validación física y de campo**: se ejecuta primero un ensayo reproducible en la Raspberry Pi de 2 GB y, únicamente con autorización, una prueba controlada propuesta para el 10 de septiembre de 2026 en OTI UNI. El protocolo se define en `docs/oti_uni_test_plan.md`.
+
+## Trazabilidad metodológica basada en literatura
+
+Las decisiones se aplican por etapa y no mezclan responsabilidades:
+
+- **Collector**: ingesta streaming, límites y rechazo defensivo de registros; se inspira en el modelo de eventos común de Khoury et al. [khoury2020event].
+- **Normalizer**: valida y estabiliza identidad, tiempo, `trace_id`, `sequence`, entidades y causas; no correlaciona ni clasifica ataques.
+- **Engine Rust**: queda fuera de este repositorio Python y recibirá únicamente `NormalizedEvent`; su diseño podrá usar grafos temporales/causales como SLEUTH [hossain2017sleuth].
+- **Raspberry Pi/SSD**: límites de buffer, rotación, hash de payload y metadata acotada siguen el enfoque de forensia de bajo costo de Yu et al. [yu2024costeffective].
+- **Ground truth y Wazuh**: los eventos conservan IDs y orden para etiquetado reproducible (AutoLabel [peng2025autolabel]) y salida acotada para reducir ruido analítico (ORTHRUS [jiang2025orthrus]).
+
+Las claves anteriores están verificadas en `docs/investigacion/referencias.bib`; cada experimento debe conservar el commit del Engine Rust, el NDJSON original y el `AttackTrace` resultante.
 
 ## Métricas de evaluación
 
