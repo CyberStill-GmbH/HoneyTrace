@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://honeytrace.local/schemas/attack_trace.schema.json",
+  "title": "HoneyTrace AttackTrace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["trace_id", "started_at", "ended_at", "stages", "event_ids", "confidence"],
+  "properties": {
+    "trace_id": {"type": "string"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "ended_at": {"type": "string", "format": "date-time"},
+    "stages": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "event_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "techniques": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+  }
+}
