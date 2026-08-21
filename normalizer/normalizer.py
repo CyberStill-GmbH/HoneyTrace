@@ -6,20 +6,11 @@ from typing import Any
 
 SCHEMA_VERSION = "1.1"
 MAX_EVENT_BYTES = 64 * 1024
-
-
-REQUIRED_FIELDS = {
-    "schema_version",
-    "event_id",
-    "timestamp",
-    "trace_id",
-    "event_type",
-    "raw_source",
-}
+REQUIRED_FIELDS = {"schema_version", "event_id", "timestamp", "trace_id", "event_type", "raw_source"}
 
 
 class EventValidationError(ValueError):
-    """Raised when an event cannot safely enter the collector pipeline."""
+    """Raised when an event cannot safely enter the normalized pipeline."""
 
 
 def normalize_event(raw: dict[str, Any], sequence: int | None = None) -> dict[str, Any]:
@@ -52,4 +43,3 @@ def normalize_event(raw: dict[str, Any], sequence: int | None = None) -> dict[st
     if "causes" in event and (not isinstance(event["causes"], list) or len(event["causes"]) > 16):
         raise EventValidationError("causes must be a bounded list")
     return event
-

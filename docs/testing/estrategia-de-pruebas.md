@@ -8,7 +8,7 @@ Garantizar que el pipeline de HoneyTrace (especialmente Normalizer, Correlation 
 
 ### 1. Unit tests
 - Ámbito: funciones puras y módulos aislados (parsers del Collector, transformaciones del Normalizer, reglas individuales del Correlation Engine, clasificadores de etapas de Attack Reconstruction).
-- Ubicación: junto a cada componente (`honeypot/tests`, `collector/tests`, `engine/tests` cuando se incorpore Rust, `api/tests`, `frontend/tests`).
+- Ubicación: junto a cada componente (`honeypot/tests`, `collector/tests`, `normalizer/tests`, `engine/tests` cuando se incorpore Rust, `api/tests`, `frontend/tests`).
 - Ejecutan en CI en cada push/PR (ver `.github/workflows/ci.yml`).
 
 ### 2. Integration tests

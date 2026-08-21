@@ -4,7 +4,7 @@ import json
 from collections.abc import Iterable, Iterator
 from typing import Any
 
-from collector.normalizer import EventValidationError, normalize_event
+from normalizer.normalizer import EventValidationError, normalize_event
 
 
 def collect_ndjson(lines: Iterable[str], max_events: int = 1000) -> Iterator[dict[str, Any]]:

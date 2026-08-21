@@ -3,7 +3,7 @@
 Son dos componentes separados aunque vivan en el mismo paquete:
 
 - `event_collector.py`: ingesta NDJSON, límites de lote y aislamiento de líneas inválidas.
-- `normalizer.py`: validación y transformación de un objeto ya parseado al contrato `NormalizedEvent` 1.1.
+- `normalizer/normalizer.py`: validación y transformación de un objeto ya parseado al contrato `NormalizedEvent` 1.1.
 
 El Collector llama al Normalizer; ninguno implementa correlación ni reconstrucción.
 
