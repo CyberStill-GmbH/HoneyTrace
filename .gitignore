@@ -50,6 +50,16 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 scripts/honeytrace-cli/honeytrace-cli
+
+# Go
+bin/
+*.test
+*.out
+.gocache/
+
+# Rust
+target/
+**/*.rs.bk
 cover/
 
 # Translations
