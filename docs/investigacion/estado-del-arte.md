@@ -35,6 +35,12 @@ La literatura revisada hasta ahora no ofrece un sistema ligero, desplegable en h
 - **Etiquetado reproducible:** AutoLabel correlaciona logs de aplicación y tráfico con auditoría para extraer subgrafos de ataque y producir datasets etiquetados [peng2025autolabel]. La salida del collector conserva `event_id`, `trace_id`, `sequence` y `causes` para que los fixtures y ataques reales puedan compararse con ground truth.
 - **Calidad de la salida:** ORTHRUS advierte que grandes volúmenes de resultados irrelevantes aumentan la carga analítica [jiang2025orthrus]. El collector no emite alertas ambiguas: entrega eventos acotados y deja la correlación y la reconstrucción al Engine.
 
+## 7. Preparación del engine Rust
+
+El directorio `engine/` prepara los contratos sin implementar algoritmos. La división `ingest → correlate → provenance → reconstruct → scoring` sigue los retos de streaming, orden parcial y relaciones explícitas descritos por Han et al. [han2018provenance]. SLEUTH fundamenta el grafo de dependencias y la reconstrucción en tiempo real [hossain2017sleuth]; ORTHRUS fundamenta la poda conservadora, la representación temporal y la atribución [jiang2025orthrus]. ALchemist respalda guardar la fuente y razón de cada evidencia al fusionar logs [alchemist].
+
+Esta evidencia no autoriza a afirmar un porcentaje de éxito general: cada publicación evalúa escenarios y datasets propios. HoneyTrace deberá medir precisión, cobertura, falsos positivos, latencia, memoria y tamaño de salida en sus ataques reales, con ground truth versionado.
+
 ## Pendiente de completar
 
 - [x] Añadir referencias concretas con año, autores y hallazgo relevante.
