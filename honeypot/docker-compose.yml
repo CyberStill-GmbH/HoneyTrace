@@ -1,0 +1,43 @@
+services:
+  backend:
+    build: .
+    container_name: honeytrace-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://honeytrace:password@postgres:5432/honeytrace
+      HONEYTRACE_LOG_DIR: /var/log/honeytrace
+      HONEYTRACE_LOG_MAX_BYTES: "5242880"
+      HONEYTRACE_LOG_BACKUPS: "2"
+    init: true
+    mem_limit: 512m
+    cpus: 1.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["sh", "-c", "alembic upgrade head && python -m app.db.seed && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+    volumes:
+      - ${HONEYTRACE_LOG_HOST_PATH:-./logs}:/var/log/honeytrace
+
+  postgres:
+    image: postgres:16
+    container_name: honeytrace-postgres
+    environment:
+      POSTGRES_USER: honeytrace
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: honeytrace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 512m
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U honeytrace -d honeytrace"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  postgres_data:
