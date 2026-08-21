@@ -49,6 +49,7 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+scripts/honeytrace-cli/honeytrace-cli
 cover/
 
 # Translations
@@ -205,6 +206,9 @@ tempCodeRunnerFile.py
 
 # Ruff stuff:
 .ruff_cache/
+
+# HoneyTrace runtime output
+honeypot/logs/
 
 # PyPI configuration file
 .pypirc
