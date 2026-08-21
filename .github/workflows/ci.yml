@@ -46,11 +46,13 @@ jobs:
         env:
           HONEYPOT_BASE_URL: http://127.0.0.1:8000
           HONEYTRACE_LOG_FILE: honeypot/logs/events.ndjson
+          PYTHONPATH: ${{ github.workspace }}
         run: pytest -q tests/e2e
       - name: Run Raspberry Pi hardware contract on Linux runner
         env:
           HONEYPOT_BASE_URL: http://127.0.0.1:8000
           HONEYTRACE_LOG_FILE: honeypot/logs/events.ndjson
+          PYTHONPATH: ${{ github.workspace }}
         run: pytest -q tests/physical -m physical
       - name: Capture service logs
         if: always()
