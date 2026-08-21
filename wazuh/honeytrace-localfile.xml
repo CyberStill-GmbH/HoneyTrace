@@ -1,0 +1,5 @@
+<!-- Copiar dentro de ossec.conf en el agente que tenga acceso al SSD de logs. -->
+<localfile>
+  <log_format>json</log_format>
+  <location>/var/log/honeytrace/events.ndjson</location>
+</localfile>
