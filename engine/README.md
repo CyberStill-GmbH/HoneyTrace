@@ -1,6 +1,6 @@
 # Correlation Engine y Attack Reconstruction (Rust)
 
-Este directorio contiene la **preparación contractual** del motor que desarrollarás en Rust. No contiene todavía algoritmos de correlación, aprendizaje, atribución ni reconstrucción: los puertos sin implementación devuelven `EngineError::NotImplemented` de forma explícita.
+Este directorio contiene el primer núcleo funcional del motor que desarrollarás en Rust. La correlación determinista, el grafo de procedencia acotado, la reconstrucción por reglas y el scoring de cobertura ya tienen una implementación mínima y verificable. Los algoritmos de aprendizaje y las estrategias avanzadas siguen fuera del camino crítico.
 
 ## Flujo y límites
 
@@ -14,13 +14,14 @@ honeypot -> collector -> normalizer -> engine (Rust) -> Wazuh/visor
 
 - `ingest.rs`: lee NDJSON y deserializa el contrato `schemas/normalized_event.schema.json`. No agrupa ni infiere.
 - `model.rs`: tipos serializables `NormalizedEvent`, `CorrelationGroup`, `AttackTrace` y `Evidence`.
-- `correlate.rs`: puerto `CorrelationEngine::correlate`; aquí entrará la agrupación por ventana temporal, identidad, entidades y causas.
-- `provenance.rs`: nodos y aristas para un grafo de procedencia temporal/causal. `from_events` es sólo un punto de extensión.
-- `reconstruct.rs`: puerto `AttackReconstructor::reconstruct`; producirá una narrativa ordenada y auditable a partir de un grupo.
-- `scoring.rs`: puerto `AttributionScorer::score`; separará evidencia observada de inferencias y permitirá calibrar confianza.
+- `correlate.rs`: puerto `CorrelationEngine::correlate` y agrupación determinista por identidad, ventana temporal y secuencia.
+- `provenance.rs`: nodos y aristas de causas y entidades compartidas, con límite explícito para evitar explosión del grafo.
+- `reconstruct.rs`: puerto `AttackReconstructor::reconstruct` y reconstrucción por reglas de las cinco señales del honeypot.
+- `scoring.rs`: puerto `AttributionScorer::score` y puntuación inicial interpretable basada en cobertura de evidencia.
 - `error.rs`: errores tipados para que los consumidores no confundan ausencia de algoritmo con resultado vacío.
 - `main.rs`: ejecutable de verificación del scaffold, no un servicio de producción.
-- `tests/contracts.rs`: garantiza que los puertos aún no implementados fallan explícitamente.
+- `tests/contracts.rs`: garantiza que los puertos deliberadamente no implementados fallan explícitamente.
+- `tests/pipeline.rs`: integración completa desde eventos hasta `AttackTrace` auditable.
 
 ## Funciones que debe implementar el desarrollo posterior
 
@@ -54,4 +55,4 @@ cargo run --manifest-path engine/Cargo.toml
 
 La integración continua ejecuta `fmt`, `check` y `test`. El siguiente paso es implementar un módulo por vez, comenzando por validación del contrato y después correlación determinista; no se debe mezclar el motor con `collector/` ni `normalizer/`.
 
-La evaluación comparativa y el método seleccionado están documentados en [`metodo-seleccionado.md`](metodo-seleccionado.md). Ese documento es la especificación de diseño antes de implementar.
+La evaluación comparativa y el método seleccionado están documentados en [`metodo-seleccionado.md`](metodo-seleccionado.md). Ese documento es la especificación de diseño; la implementación actual cubre el primer camino determinista.
