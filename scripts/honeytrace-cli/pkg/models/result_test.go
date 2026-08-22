@@ -1,9 +1,9 @@
-package main
+package models
 
 import "testing"
 
 func TestRecordHashesBodyAndChecksExpectedStatus(t *testing.T) {
-	got := record("sqli", "sql-injection-pattern", 200, 200, "trace-1", "decoy")
+	got := Record("sqli", "sql-injection-pattern", 200, 200, "trace-1", "decoy")
 	if !got.Passed {
 		t.Fatal("expected matching status to pass")
 	}
@@ -13,8 +13,11 @@ func TestRecordHashesBodyAndChecksExpectedStatus(t *testing.T) {
 }
 
 func TestRecordMarksUnexpectedStatus(t *testing.T) {
-	got := record("path-traversal", "attempt-host-escape", 200, 403, "trace-2", "blocked")
+	got := Record("path-traversal", "attempt-host-escape", 200, 403, "trace-2", "blocked")
 	if got.Passed {
 		t.Fatal("expected unexpected status to fail")
+	}
+	if got.Expected != "403" || got.Status != 200 {
+		t.Fatalf("unexpected status values: %+v", got)
 	}
 }
