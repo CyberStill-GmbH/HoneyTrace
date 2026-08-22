@@ -10,12 +10,12 @@ Dejar una base reproducible, acordar la arquitectura y registrar honestamente qu
 
 ## Backlog verificado
 
-- [ ] Crear la estructura completa prevista (`honeypot/`, `collector/`, `engine/`, `api/`, `frontend/`, `schemas/`, `tests/`, `research/`). Existen varias carpetas, pero faltan `api/`, `frontend/`, `schemas/` y `research/`; además existe `reasearch/`, que debe corregirse.
+- [x] Crear la estructura base (`honeypot/`, `collector/`, `normalizer/`, `engine/`, `schemas/`, `tests/` y `scripts/`). `api/`, `frontend/` y `research/` permanecen como extensiones planificadas.
 - [x] Redactar planteamiento, objetivos y preguntas de investigación.
 - [x] Redactar el primer borrador de requisitos.
-- [x] Redactar ADR 0001–0003; su estado continúa `Propuesto` hasta revisión del equipo.
+- [x] Redactar y revisar ADR 0001–0003; sus estados vigentes están en `docs/adr/README.md`.
 - [x] Redactar el threat model inicial.
-- [x] Crear workflows básicos `ci.yml` y `security.yml`; falta validar que pasen con código real.
+- [x] Crear workflows `ci.yml` y `security.yml`, con validación de Python, Rust y Go.
 - [x] Definir Definition of Ready y Definition of Done.
 - [x] Preparar Docker Compose local con FastAPI, PostgreSQL 16 y healthcheck.
 - [x] Crear modelos SQLAlchemy y migración inicial de seis tablas.
@@ -32,4 +32,4 @@ Dejar una base reproducible, acordar la arquitectura y registrar honestamente qu
 
 ## Criterio de salida
 
-La base técnica está disponible. El Sprint 0 se considera **cerrado con deuda explícita**: estructura completa, validación independiente y asignación nominal pasan al Sprint 1.
+La base técnica está disponible. El Sprint 0 se considera **cerrado con deuda explícita**: validación independiente y asignación nominal continúan pendientes; las extensiones API/frontend/research no bloquean el MVP investigativo.

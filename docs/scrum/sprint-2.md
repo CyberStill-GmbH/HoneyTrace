@@ -10,16 +10,16 @@ Completar el flujo Honeypot → Collector → Normalizer → correlación básic
 
 ## Backlog
 
-- [ ] **LT** — definir interfaces, manejo de backpressure, deduplicación y fallo seguro.
-- [ ] **LT** — construir el núcleo del Correlation Engine y Attack Reconstruction; priorizar reglas explicables.
-- [ ] **IA** — implementar parsers del Collector en Python con fixtures y ejemplos entregados por LT.
+- [x] **LT** — definir interfaces, límites de recursos, deduplicación y fallo seguro del Engine.
+- [x] **LT** — construir el núcleo determinista del Correlation Engine y Attack Reconstruction; priorizar reglas explicables.
+- [x] **IA** — implementar parsers del Collector en Python con pruebas unitarias e integración NDJSON.
 - [ ] **IA** — crear `bruteforce.json` y su ground truth.
-- [ ] **IB** — instrumentar métricas de disponibilidad, latencia, eventos, CPU, RAM y disco.
-- [ ] **IB** — documentar el runbook de ejecución del pipeline.
-- [ ] **Equipo** — crear pruebas unitarias de Normalizer y pruebas de integración contra ground truth.
+- [x] **IB** — instrumentar métricas de disponibilidad, latencia, eventos, CPU, RAM y disco en el contrato de observabilidad.
+- [x] **IB** — documentar el runbook de ejecución del pipeline.
+- [x] **Equipo** — crear pruebas unitarias de Normalizer y pruebas de integración del Engine; la comparación completa contra ground truth queda pendiente.
 - [ ] **LT** — medir precisión, recall, F1, cobertura y latencia para fuerza bruta.
 - [ ] **Equipo** — ejecutar reinicio, duplicados, evento inválido y almacenamiento lleno.
 
 ## Criterio de salida
 
-El escenario de fuerza bruta produce de extremo a extremo un `AttackTrace` reproducible y evaluable contra ground truth, sin depender de Raspberry Pi.
+El núcleo produce un `AttackTrace` reproducible desde eventos normalizados en Rust. La integración completa Collector → Normalizer → Engine y la evaluación contra ground truth permanecen como criterio pendiente.

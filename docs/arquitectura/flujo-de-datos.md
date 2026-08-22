@@ -4,21 +4,21 @@
 
 ```
 1. Atacante interactúa con el Web Honeypot (HTTP requests)
-2. El Honeypot emite telemetría (logs estructurados, spans OpenTelemetry, eventos de aplicación/DB)
+2. El Honeypot emite telemetría NDJSON estructurada y eventos de aplicación/DB
 3. El Event Collector captura la telemetría cruda (RawEvent)
 4. El Collector envía el RawEvent al Normalizer
 5. El Normalizer transforma el RawEvent en un NormalizedEvent (esquema común, ver /schemas)
 6. El Correlation Engine consume NormalizedEvents y agrupa los relacionados (mismo IP/sesión/ventana temporal/etc.)
 7. El módulo de Attack Reconstruction procesa el grupo correlacionado y produce un AttackTrace
-8. El AttackTrace se persiste (research/datasets o base de datos de resultados)
+8. El AttackTrace se exporta como JSON/NDJSON; la persistencia investigativa versionada queda pendiente.
 ```
 
 ## Flujo extendido (con SIEM, API y frontend)
 
 ```
 3'. En paralelo al Collector, la telemetría también se envía a Wazuh
-8. El AttackTrace queda disponible para la API HoneyTrace (GET /attacks, /attacks/:id, /events, /stats, /attacks/:id/graph)
-9. El Frontend (React + Three.js) consume la API y renderiza dashboard + Attack Explorer
+8. Una futura API de resultados podrá exponer el `AttackTrace` (los endpoints aún no están implementados).
+9. Un futuro frontend podrá consumir esa API y renderizar dashboard + Attack Explorer.
 ```
 
 ## Ejemplo de transformación (Normalizer)

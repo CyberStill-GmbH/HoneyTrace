@@ -2,14 +2,14 @@
 
 Este documento detalla la arquitectura de base de datos actual para el servicio Honeypot de la plataforma. La base de datos está diseñada relacionalmente utilizando PostgreSQL y gestionada a través de SQLAlchemy (ORM) con Alembic para las migraciones.
 
-## Estado verificado al 19 de agosto de 2026
+## Estado verificado al 21 de agosto de 2026
 
 - [x] PostgreSQL 16 inicia mediante Docker Compose y reporta `healthy`.
 - [x] La migración `20260819_0001` está aplicada.
 - [x] Existen las seis tablas de dominio y `alembic_version`.
 - [x] Claves primarias, cinco claves foráneas y dos restricciones únicas verificadas.
 - [x] `alembic check` no detecta diferencias entre modelos y esquema.
-- [ ] Datos semilla y pruebas de integridad automatizadas.
+- [x] Datos semilla y pruebas de integridad automatizadas en la suite del honeypot.
 - [ ] Política de retención y rotación para la prueba en Raspberry Pi/SSD.
 
 ## Diagrama Entidad-Relación (ERD)

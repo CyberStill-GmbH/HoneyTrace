@@ -2,16 +2,17 @@
 
 Plataforma académica de investigación para desplegar un honeypot controlado, capturar telemetría de ataques y analizar técnicas observadas sin exponer activos institucionales.
 
-## Estado verificado al 19 de agosto de 2026
+## Estado verificado al 21 de agosto de 2026
 
 - [x] PostgreSQL 16 en Docker Compose con healthcheck.
 - [x] Modelos SQLAlchemy y migración inicial de Alembic.
 - [x] Tablas `users`, `products`, `files`, `orders`, `notes` y `order_items` verificadas.
 - [x] Backend FastAPI ejecutándose y endpoint `/health` operativo.
 - [x] APIs vulnerables `/auth`, `/users`, `/products`, `/files` y `/orders` con ataques HTTP reales de laboratorio.
-- [ ] Captura, normalización y almacenamiento de eventos de seguridad.
-- [ ] Motor de análisis, panel de visualización y exportación de resultados.
-- [ ] Pruebas automatizadas, pruebas de carga y validación de aislamiento.
+- [x] Captura, normalización y emisión NDJSON de eventos de seguridad.
+- [x] Núcleo determinista inicial del Engine Rust: correlación, procedencia, reconstrucción por reglas y scoring.
+- [x] Pruebas unitarias, integración, E2E del honeypot y contratos físicos en CI; carga y aceptación física final siguen pendientes.
+- [ ] Panel de visualización, API de resultados y exportación investigativa completa.
 - [ ] Despliegue en Raspberry Pi y prueba de campo en OTI UNI.
 
 Que un archivo o modelo exista no significa que su funcionalidad esté terminada. Los elementos se marcan con `[x]` únicamente cuando existe evidencia reproducible.
@@ -29,7 +30,7 @@ Que un archivo o modelo exista no significa que su funcionalidad esté terminada
 
 ## Hito de campo
 
-Se propone realizar la prueba controlada en OTI UNI el **1-6 de septiembre de 2026, de 09:00 a 13:00 (America/Lima)**. La fecha y el horario deben ser confirmados por OTI UNI antes del Sprint 3; no se desplegará el equipo sin autorización, alcance de red y responsable institucional definidos.
+Se propone realizar la prueba controlada en OTI UNI el **10 de septiembre de 2026, de 09:00 a 13:00 (America/Lima)**. La fecha y el horario deben ser confirmados por OTI UNI; no se desplegará el equipo sin autorización, alcance de red y responsable institucional definidos.
 
 ## Arranque local
 

@@ -33,6 +33,7 @@ Estado: Propuesto | Aceptado | Rechazado | Reemplazado por NNNN
 
 | ID | Título | Estado |
 |----|--------|--------|
-| [0001](0001-estructura-general.md) | Estructura general del proyecto y stack por componente | Propuesto |
-| [0002](0002-siem.md) | Elección de Wazuh como SIEM de comparación | Propuesto |
-| [0003](0003-esquema-eventos.md) | Esquema común de eventos normalizados | Propuesto |
+| [0001](0001-estructura-general.md) | Estructura general del proyecto y stack por componente | Aceptado para MVP |
+| [0002](0002-siem.md) | Elección de Wazuh como SIEM de comparación | Aceptado opcional |
+| [0003](0003-esquema-eventos.md) | Esquema común de eventos normalizados | Aceptado 1.1 |
+| [adr_001](adr_001_python_db_stack.md) | Stack PostgreSQL/SQLAlchemy/Alembic | Aceptado (legado) |

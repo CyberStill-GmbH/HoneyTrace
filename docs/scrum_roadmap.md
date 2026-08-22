@@ -7,8 +7,8 @@
 ## Estado
 
 - [x] Sprint 0: base Docker/PostgreSQL/Alembic/FastAPI verificada; quedan deudas de estructura y validación independiente.
-- [ ] Sprint 1: cinco APIs vulnerables contenidas e instrumentadas.
-- [ ] Sprint 2: Collector, Normalizer y primer `AttackTrace`.
+- [x] Sprint 1: cinco APIs vulnerables contenidas e instrumentadas.
+- [ ] Sprint 2: Collector, Normalizer y primer `AttackTrace` integrado de extremo a extremo (el núcleo Rust y sus pruebas ya existen; falta conectar el dataset completo y medir contra ground truth).
 - [ ] Sprint 3: cinco escenarios, Raspberry Pi/SSD y autorización OTI.
 - [ ] Sprint 4: regresión, ensayo, Go/No-Go, campo y cierre.
 
