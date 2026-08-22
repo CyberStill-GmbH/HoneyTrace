@@ -37,10 +37,10 @@ Ver el diagrama ASCII completo en el documento raíz del proyecto y las variante
 ## Componentes
 
 ### 1. Web Honeypot
-Aplicación web deliberadamente vulnerable ejecutada sobre la Raspberry Pi. No es objeto de investigación en sí misma; su función es generar interacciones observables. Stack: Python + FastAPI + PostgreSQL, sobre Docker.
+Aplicación web deliberadamente vulnerable ejecutada sobre Docker y destinada a la Raspberry Pi. No es objeto de investigación en sí misma; su función es generar interacciones observables. Stack implementado: Python + FastAPI + PostgreSQL.
 
 ### 2. Observabilidad / Instrumentación
-Capa transversal que expone telemetría desde HTTP, aplicación, base de datos y sistema, mediante OpenTelemetry, logging estructurado y middleware propio.
+Capa transversal que expone telemetría desde HTTP, aplicación, base de datos y sistema mediante logging estructurado NDJSON, middleware y hooks propios. OpenTelemetry no forma parte del MVP actual.
 
 ### 3. Event Collector
 Responsable de capturar, parsear y enviar los eventos crudos. No decide si hay un ataque; es un pipeline de ingesta. Componente adecuado para desarrolladores con menos experiencia.
@@ -49,7 +49,7 @@ Responsable de capturar, parsear y enviar los eventos crudos. No decide si hay u
 Convierte `RawEvent` (formatos heterogéneos según la fuente) a `NormalizedEvent`, según el contrato definido en `/schemas`.
 
 ### 5. Correlation Engine
-Núcleo técnico del proyecto (candidato: Rust). Agrupa eventos relacionados usando IP, timestamp, sesión, endpoint, tipo de evento, User-Agent, trace ID, ventana temporal y relaciones causales.
+Núcleo técnico del proyecto implementado inicialmente en Rust. Agrupa eventos relacionados usando `trace_id`, sesión, origen, timestamp, ventana temporal y relaciones causales acotadas.
 
 ### 6. Attack Reconstruction
 A partir de eventos correlacionados, produce un `AttackTrace`: etapas, evidencias, timestamps, relaciones, clasificación y confidence score.
@@ -58,10 +58,10 @@ A partir de eventos correlacionados, produce un `AttackTrace`: etapas, evidencia
 Recibe telemetría en paralelo al pipeline de HoneyTrace. Sirve como línea base de comparación (detección basada en reglas tradicionales de un SOC).
 
 ### 8. API HoneyTrace
-TypeScript + Node.js. Expone los resultados del Engine al frontend, sin lógica investigativa propia.
+Planificada; todavía no existe una implementación TypeScript/Node.js. Cuando se construya, expondrá resultados del Engine sin lógica investigativa propia.
 
 ### 9. Frontend
-React + TypeScript + Three.js. Dashboard y Attack Explorer con timeline, evidencias y reconstrucción 3D del grafo de ataque.
+Planificado; React + TypeScript + Three.js sólo se incorporará después de estabilizar pipeline, evaluación y hardware.
 
 ## Principios de diseño
 

@@ -23,6 +23,7 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 - [Diagrama de contexto](arquitectura/diagramas/contexto.md)
 - [Diagrama de componentes](arquitectura/diagramas/componentes.md)
 - [Diagrama de despliegue](arquitectura/diagramas/despliegue.md)
+- [Observabilidad y contrato NDJSON](arquitectura/observabilidad.md)
 
 ## Decisiones de arquitectura
 
@@ -61,6 +62,14 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 - [Política de seguridad](../SECURITY.md)
 - [Guía de contribución](../CONTRIBUTING.md)
 - [Herramientas de laboratorio](../scripts/README.md): CLI Go para ataques reales controlados, con confirmación obligatoria del laboratorio.
+
+## Componentes implementados
+
+- [Collector](../collector/README.md)
+- [Normalizer](../normalizer/README.md)
+- [Correlation Engine Rust](../engine/README.md)
+- [Método de reconstrucción](../engine/metodo-seleccionado.md)
+- [Schemas de entrada y salida](../schemas/README.md)
 
 ## Proyecto
 

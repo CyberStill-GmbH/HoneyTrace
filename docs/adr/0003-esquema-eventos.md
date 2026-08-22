@@ -1,7 +1,7 @@
 # 0003. Esquema común de eventos normalizados
 
 Fecha: 2026-08-18
-Estado: Propuesto
+Estado: Aceptado; versión vigente 1.1
 
 ## Contexto
 

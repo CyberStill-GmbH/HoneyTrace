@@ -11,7 +11,7 @@ El collector entrega **un `NormalizedEvent` por línea NDJSON**. El Engine debe 
 ## Salida esperada del Engine
 
 ```json
-{"trace_id":"abc123","started_at":"2026-08-21T10:00:00.000Z","ended_at":"2026-08-21T10:00:01.000Z","stages":["recon","input-testing","exploitation"],"event_ids":["evt-1","evt-6"],"techniques":["T1190"],"confidence":0.91,"evidence":[{"event_id":"evt-1","reason":"SQLi pattern and decoy rows returned"}]}
+{"trace_id":"abc123","started_at":"2026-08-21T10:00:00.000Z","ended_at":"2026-08-21T10:00:01.000Z","stages":["products-sqli"],"event_ids":["evt-1","evt-6"],"techniques":["HT-SQLI"],"confidence":0.91,"evidence":[{"event_id":"evt-1","reason":"SQLi pattern and decoy rows returned"}]}
 ```
 
 `sequence` conserva el orden de ingestión; `causes` permite expresar relaciones de procedencia sin que el Engine tenga que inferirlas solo desde texto. El Engine debe rechazar eventos con esquema inválido, conservar `event_id` y `trace_id`, y reportar los rechazos por separado.

@@ -8,12 +8,12 @@ Garantizar que el pipeline de HoneyTrace (especialmente Normalizer, Correlation 
 
 ### 1. Unit tests
 - Ámbito: funciones puras y módulos aislados (parsers del Collector, transformaciones del Normalizer, reglas individuales del Correlation Engine, clasificadores de etapas de Attack Reconstruction).
-- Ubicación: junto a cada componente (`honeypot/tests`, `collector/tests`, `normalizer/tests`, `engine/tests` cuando se incorpore Rust, `api/tests`, `frontend/tests`).
+- Ubicación: junto a cada componente (`honeypot/tests`, `collector/tests`, `normalizer/tests`, `engine/tests`; `api/tests` y `frontend/tests` sólo cuando esas extensiones existan).
 - Ejecutan en CI en cada push/PR (ver `.github/workflows/ci.yml`).
 
 ### 2. Integration tests
 - Ámbito: flujo entre dos o más componentes (p. ej. Collector → Normalizer → Engine) usando datos sintéticos de `tests/fixtures/`, sin necesidad de la Raspberry Pi ni del honeypot real.
-- Ejemplo: alimentar `tests/fixtures/bruteforce.json` al pipeline completo del Engine y comparar el `AttackTrace` producido contra `expected_trace.json`.
+- Ejemplo pendiente: alimentar fixtures versionados por escenario al pipeline completo del Engine y comparar el `AttackTrace` producido contra `expected_trace.json`. Actualmente existe un pipeline contractual en `engine/tests/pipeline.rs`.
 
 ### 3. E2E tests
 - Ámbito: honeypot real (o contenedorizado localmente) generando telemetría real, pasando por todo el pipeline hasta la API/Frontend.
@@ -50,6 +50,6 @@ Cada escenario de ataque documentado en `escenarios-de-ataque.md` debe tener:
 |------------|----------------------|
 | Honeypot / Collector (Python) | pytest |
 | Engine (Rust) | cargo test |
-| API (Node/TypeScript) | vitest o jest |
-| Frontend (React) | vitest/testing-library |
+| API (futura) | vitest o jest cuando exista |
+| Frontend (futuro React) | vitest/testing-library cuando exista |
 | CI | GitHub Actions (`ci.yml`) |

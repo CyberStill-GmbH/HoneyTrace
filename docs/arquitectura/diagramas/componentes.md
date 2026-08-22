@@ -32,7 +32,7 @@ flowchart TD
 
 | Origen | Destino | Contrato |
 |--------|---------|----------|
-| Web Honeypot | Event Collector | Logs estructurados / spans OpenTelemetry |
+| Web Honeypot | Event Collector | Logs estructurados NDJSON |
 | Event Collector | Normalizer | `RawEvent` (formato de la fuente) |
 | Normalizer | Correlation Engine | `NormalizedEvent` (`/schemas`) |
 | Correlation Engine | Attack Reconstruction | Grupo de eventos correlacionados (mismo `correlation_id`) |

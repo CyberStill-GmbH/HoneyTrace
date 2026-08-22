@@ -1,7 +1,7 @@
 # 0001. Estructura general del proyecto y stack por componente
 
 Fecha: 2026-08-18
-Estado: Propuesto
+Estado: Aceptado para el MVP; API y Frontend planificados
 
 ## Contexto
 
@@ -15,12 +15,12 @@ Se adopta la estructura de componentes descrita en `docs/arquitectura/arquitectu
 |------------|------------|
 | Honeypot | Python + FastAPI |
 | DB honeypot | PostgreSQL |
-| Instrumentación | OpenTelemetry + logging estructurado |
+| Instrumentación | Logging estructurado NDJSON y hooks propios |
 | Collector | Python |
 | Engine (Correlation + Reconstruction) | Rust |
 | SIEM | Wazuh |
-| API | TypeScript + Node.js |
-| Frontend | React + TypeScript + Three.js |
+| API | Planificada; sin implementación en el MVP actual |
+| Frontend | Planificado; sin implementación en el MVP actual |
 | Contenedores | Docker |
 | CI/CD | GitHub Actions |
 

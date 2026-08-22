@@ -32,6 +32,6 @@ docker compose up -d --build
 docker compose exec -T backend alembic check
 Invoke-RestMethod http://localhost:8000/health
 # CLI de ataques HTTP reales (solo contra este honeypot aislado)
-docker run --rm -v ${PWD}/scripts/honeytrace-cli:/src -w /src golang:1.22 \
+docker run --rm -v ${PWD}/scripts/honeytrace-cli:/src -w /src golang:1.25 \
   go run . --base-url http://host.docker.internal:8000 --confirm-lab --scenario all
 ```

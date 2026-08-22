@@ -20,7 +20,7 @@ Las decisiones se aplican por etapa y no mezclan responsabilidades:
 
 - **Collector**: ingesta streaming, límites y rechazo defensivo de registros; se inspira en el modelo de eventos común de Khoury et al. [khoury2020event].
 - **Normalizer**: valida y estabiliza identidad, tiempo, `trace_id`, `sequence`, entidades y causas; no correlaciona ni clasifica ataques.
-- **Engine Rust**: queda fuera de este repositorio Python y recibirá únicamente `NormalizedEvent`; su diseño podrá usar grafos temporales/causales como SLEUTH [hossain2017sleuth].
+- **Engine Rust**: es un componente separado del código Python dentro del mismo repositorio y recibe únicamente `NormalizedEvent`; su núcleo determinista usa grafos temporales/causales acotados, con SLEUTH como referencia [hossain2017sleuth].
 - **Raspberry Pi/SSD**: límites de buffer, rotación, hash de payload y metadata acotada siguen el enfoque de forensia de bajo costo de Yu et al. [yu2024costeffective].
 - **Ground truth y Wazuh**: los eventos conservan IDs y orden para etiquetado reproducible (AutoLabel [peng2025autolabel]) y salida acotada para reducir ruido analítico (ORTHRUS [jiang2025orthrus]).
 
