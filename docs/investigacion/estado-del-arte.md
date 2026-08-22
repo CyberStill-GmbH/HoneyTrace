@@ -41,6 +41,8 @@ El directorio `engine/` prepara los contratos sin implementar algoritmos. La div
 
 Esta evidencia no autoriza a afirmar un porcentaje de éxito general: cada publicación evalúa escenarios y datasets propios. HoneyTrace deberá medir precisión, cobertura, falsos positivos, latencia, memoria y tamaño de salida en sus ataques reales, con ground truth versionado.
 
+La evaluación metodológica completa y la decisión de iniciar con un pipeline determinista híbrido están en [`engine/metodo-seleccionado.md`](../../engine/metodo-seleccionado.md). OmegaLog aporta la reconciliación entre contexto de aplicación y auditoría [omegalog], mientras ProvCon refuerza la necesidad de transformar observaciones en una representación de procedencia explicable [provcon2025].
+
 ## Pendiente de completar
 
 - [x] Añadir referencias concretas con año, autores y hallazgo relevante.

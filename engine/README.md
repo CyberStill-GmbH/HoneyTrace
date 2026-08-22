@@ -53,3 +53,5 @@ cargo run --manifest-path engine/Cargo.toml
 ```
 
 La integración continua ejecuta `fmt`, `check` y `test`. El siguiente paso es implementar un módulo por vez, comenzando por validación del contrato y después correlación determinista; no se debe mezclar el motor con `collector/` ni `normalizer/`.
+
+La evaluación comparativa y el método seleccionado están documentados en [`metodo-seleccionado.md`](metodo-seleccionado.md). Ese documento es la especificación de diseño antes de implementar.
