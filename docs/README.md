@@ -70,6 +70,8 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 - [Correlation Engine Rust](../engine/README.md)
 - [Método de reconstrucción](../engine/metodo-seleccionado.md)
 - [Schemas de entrada y salida](../schemas/README.md)
+- [Backend del Visualizer](../visualizer/README.md)
+- [Modelo de datos del Visualizer](../visualizer/DB.md)
 
 ## Proyecto
 

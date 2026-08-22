@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: honeytrace_visualizer
+      POSTGRES_USER: visualizer
+      POSTGRES_PASSWORD: visualizer-local-only
+    ports: ["5433:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U visualizer -d honeytrace_visualizer"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://visualizer:visualizer-local-only@postgres:5432/honeytrace_visualizer
+      INGEST_TOKEN: development-ingest-token-change-me
+      OAUTH_STATE_SECRET: development-secret-change-me-please-32
+      FRONTEND_URL: http://localhost:5173
+    ports: ["8080:8080"]
+    depends_on:
+      postgres: { condition: service_healthy }
