@@ -6,6 +6,8 @@ pub enum EngineError {
     InvalidEvent(String),
     #[error("orden temporal inválido: {0}")]
     InvalidOrdering(String),
+    #[error("límite de recursos excedido: {0}")]
+    ResourceLimit(String),
     #[error("JSON inválido: {0}")]
     Json(#[from] serde_json::Error),
     #[error("I/O: {0}")]

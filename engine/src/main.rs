@@ -1,3 +1,3 @@
 fn main() {
-    println!("HoneyTrace engine: esqueleto Rust; correlación y reconstrucción pendientes");
+    println!("HoneyTrace engine: núcleo determinista listo; aprendizaje avanzado pendiente");
 }

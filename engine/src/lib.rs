@@ -1,7 +1,7 @@
 //! Contratos del correlation engine de HoneyTrace.
 //!
-//! Este crate es deliberadamente un esqueleto: define límites, modelos y
-//! puertos para que la implementación de los algoritmos ocurra después.
+//! Este crate contiene el núcleo determinista y los puertos para las fases
+//! avanzadas de correlación y reconstrucción.
 
 pub mod correlate;
 pub mod error;
@@ -12,4 +12,4 @@ pub mod reconstruct;
 pub mod scoring;
 
 pub use error::EngineError;
-pub use model::{AttackTrace, CorrelationGroup, NormalizedEvent};
+pub use model::{AttackTrace, CorrelationGroup, Entity, Evidence, NormalizedEvent};
