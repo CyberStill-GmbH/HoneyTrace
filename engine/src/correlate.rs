@@ -32,17 +32,22 @@ impl CorrelationEngine for DeterministicCorrelation {
                 event.event_id.clone(),
             )
         });
+        for event in &ordered {
+            parse_timestamp(event)?;
+        }
         let mut groups: Vec<CorrelationGroup> = Vec::new();
         for event in ordered {
             let timestamp = parse_timestamp(&event)?;
             let key = correlation_key(&event);
-            let can_append = groups.last().is_some_and(|group| {
-                correlation_key(&group.events[0]) == key
-                    && parse_timestamp(group.events.last().expect("grupo no vacío"))
-                        .is_ok_and(|last| timestamp - last <= self.window)
+            let candidate = groups.iter().enumerate().rev().find_map(|(index, group)| {
+                if correlation_key(&group.events[0]) != key {
+                    return None;
+                }
+                let last = parse_timestamp(group.events.last().expect("grupo no vacío")).ok()?;
+                (timestamp - last <= self.window).then_some(index)
             });
-            if can_append {
-                let group = groups.last_mut().expect("grupo existente");
+            if let Some(index) = candidate {
+                let group = groups.get_mut(index).expect("grupo encontrado");
                 if group.events.len() >= self.max_events_per_group {
                     return Err(EngineError::ResourceLimit(format!(
                         "grupo {} supera {} eventos",
@@ -156,5 +161,22 @@ mod tests {
             ])
             .unwrap();
         assert_eq!(groups.len(), 2);
+    }
+
+    #[test]
+    fn mantiene_trazas_intercaladas_en_grupos_independientes() {
+        let mut first = event("a1", "2026-01-01T00:00:01Z", 1);
+        first.trace_id = "a".into();
+        let mut second = event("b1", "2026-01-01T00:00:02Z", 1);
+        second.trace_id = "b".into();
+        let mut next_first = event("a2", "2026-01-01T00:00:03Z", 2);
+        next_first.trace_id = "a".into();
+        let groups = DeterministicCorrelation::default()
+            .correlate(&[first, second, next_first])
+            .unwrap();
+        assert_eq!(groups.len(), 2);
+        assert!(groups
+            .iter()
+            .any(|group| group.event_ids == vec!["a1", "a2"]));
     }
 }
