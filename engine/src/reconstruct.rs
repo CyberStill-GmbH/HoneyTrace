@@ -69,9 +69,9 @@ fn vulnerability_mapping(value: &str) -> Option<(&'static str, &'static str)> {
     match value {
         "brute_force" => Some(("auth-brute-force", "T1110")),
         "idor" => Some(("users-idor", "HT-IDOR")),
-        "sqli" => Some(("products-sqli", "T1190")),
-        "path_traversal" => Some(("files-path-traversal", "T1190")),
-        "stored_xss" => Some(("orders-stored-xss", "T1189")),
+        "sqli" => Some(("products-sqli", "HT-SQLI")),
+        "path_traversal" => Some(("files-path-traversal", "HT-PATH-TRAVERSAL")),
+        "stored_xss" => Some(("orders-stored-xss", "HT-STORED-XSS")),
         _ => None,
     }
 }
