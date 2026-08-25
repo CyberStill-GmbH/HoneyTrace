@@ -11,13 +11,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+  postgres-e2e:
+    image: postgres:16-alpine
+    profiles: ["test"]
+    environment:
+      POSTGRES_DB: honeytrace_visualizer_e2e
+      POSTGRES_USER: visualizer
+      POSTGRES_PASSWORD: visualizer-e2e-only
+    ports: ["5434:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U visualizer -d honeytrace_visualizer_e2e"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
   api:
     build: .
     environment:
       DATABASE_URL: postgresql://visualizer:visualizer-local-only@postgres:5432/honeytrace_visualizer
-      INGEST_TOKEN: development-ingest-token-change-me
       OAUTH_STATE_SECRET: development-secret-change-me-please-32
       FRONTEND_URL: http://localhost:5173
+      COOKIE_SECURE: "false"
+      COOKIE_SAME_SITE: lax
     ports: ["8080:8080"]
     depends_on:
       postgres: { condition: service_healthy }
