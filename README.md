@@ -12,7 +12,8 @@ Plataforma académica de investigación para desplegar un honeypot controlado, c
 - [x] Captura, normalización y emisión NDJSON de eventos de seguridad.
 - [x] Núcleo determinista inicial del Engine Rust: correlación, procedencia, reconstrucción por reglas y scoring.
 - [x] Pruebas unitarias, integración, E2E del honeypot y contratos físicos en CI; carga y aceptación física final siguen pendientes.
-- [ ] Panel de visualización, API de resultados y exportación investigativa completa.
+- [x] API privada de resultados con Prisma, OAuth GitHub, estadísticas, filtros, grafo causal y exportación JSON/NDJSON.
+- [ ] Panel frontend de visualización.
 - [ ] Despliegue en Raspberry Pi y prueba de campo en OTI UNI.
 
 Que un archivo o modelo exista no significa que su funcionalidad esté terminada. Los elementos se marcan con `[x]` únicamente cuando existe evidencia reproducible.
