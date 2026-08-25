@@ -58,7 +58,7 @@ A partir de eventos correlacionados, produce un `AttackTrace`: etapas, evidencia
 Recibe telemetría en paralelo al pipeline de HoneyTrace. Sirve como línea base de comparación (detección basada en reglas tradicionales de un SOC).
 
 ### 8. API HoneyTrace
-Planificada; todavía no existe una implementación TypeScript/Node.js. Cuando se construya, expondrá resultados del Engine sin lógica investigativa propia.
+Implementada en `visualizer/backend` con Express, TypeScript, Prisma y PostgreSQL. Expone de forma privada por cuenta los resultados del Engine, estadísticas, filtros, exportación y grafo, sin lógica investigativa propia. La ingestión usa tokens de dispositivo asociados a cada cuenta y la interfaz humana usa OAuth GitHub con cookies `HttpOnly` rotables.
 
 ### 9. Frontend
 Planificado; React + TypeScript + Three.js sólo se incorporará después de estabilizar pipeline, evaluación y hardware.

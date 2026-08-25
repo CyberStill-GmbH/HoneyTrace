@@ -17,8 +17,8 @@
 
 ```
 3'. En paralelo al Collector, la telemetría también se envía a Wazuh
-8. Una futura API de resultados podrá exponer el `AttackTrace` (los endpoints aún no están implementados).
-9. Un futuro frontend podrá consumir esa API y renderizar dashboard + Attack Explorer.
+8. La API privada de resultados persiste y expone el `AttackTrace` y sus eventos normalizados mediante Prisma/PostgreSQL.
+9. El futuro frontend consumirá esa API autenticada para renderizar dashboard + Attack Explorer.
 ```
 
 ## Ejemplo de transformación (Normalizer)

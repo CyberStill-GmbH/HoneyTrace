@@ -19,6 +19,7 @@
     "method": {"type": ["string", "null"], "maxLength": 16},
     "path": {"type": ["string", "null"], "maxLength": 256},
     "status_code": {"type": ["integer", "null"], "minimum": 100, "maximum": 599},
+    "user_id": {"type": ["string", "null"], "maxLength": 128},
     "duration_ms": {"type": ["number", "null"], "minimum": 0},
     "user_agent": {"type": ["string", "null"], "maxLength": 256},
     "vulnerability": {"type": ["string", "null"], "maxLength": 64},

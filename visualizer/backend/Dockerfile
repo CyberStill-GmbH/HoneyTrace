@@ -1,6 +1,7 @@
 FROM node:20-bookworm-slim AS build
 WORKDIR /app
 COPY package*.json ./
+COPY prisma ./prisma
 RUN npm ci
 COPY tsconfig.json vitest.config.ts ./
 COPY src ./src
@@ -12,6 +13,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
-COPY db ./db
+COPY prisma ./prisma
 EXPOSE 8080
-CMD ["sh", "-c", "node dist/db/migrate.js && node dist/server.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/server.js"]
