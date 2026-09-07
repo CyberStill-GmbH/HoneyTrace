@@ -15,8 +15,8 @@
 | RF-09 | Attack Reconstruction produce AttackTrace (Rust) | ✓ | ✓ | – | – | En progreso — reglas y scoring cubiertos; falta ground truth por escenario |
 | RF-10 | Telemetría en paralelo a Wazuh | – | ✓ | ✓ | – | Cubierto |
 | RF-11 | Endpoints de la API | ✓ | ✓ | ✓ | – | Cubierto |
-| RF-12 | Dashboard del frontend | – | – | - | – | Pendiente |
-| RF-13 | Attack Explorer (timeline + 3D) | – | – | - | – | Pendiente |
+| RF-12 | Dashboard del frontend | ✓ | ✓ | – | – | Cubierto |
+| RF-13 | Attack Explorer (timeline + 3D) | ✓ | ✓ | – | – | Cubierto |
 | RF-14 | Comparación contra ground truth | – | - | – | - | Pendiente |
 
 ## Convenciones

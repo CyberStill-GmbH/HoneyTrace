@@ -1,0 +1,5 @@
+import { AlertTriangle, Inbox, LoaderCircle } from "lucide-react";
+
+export function LoadingState({ label = "Cargando datos…" }: { label?: string }) { return <div className="loading-state" role="status"><div><LoaderCircle className="mx-auto mb-3 animate-spin" size={22} /><p>{label}</p></div></div>; }
+export function EmptyState({ title, detail }: { title: string; detail: string }) { return <div className="empty-state"><div><Inbox className="mx-auto mb-3" size={24} /><p className="font-medium text-[var(--text-secondary)]">{title}</p><p className="mt-1 text-sm">{detail}</p></div></div>; }
+export function ErrorState({ retry }: { retry?: () => void }) { return <div className="error-state" role="alert"><div><AlertTriangle className="mx-auto mb-3 text-[var(--sev-bruteforce)]" size={24} /><p className="font-medium text-[var(--text-secondary)]">No se pudieron cargar los datos</p><p className="mt-1 text-sm">Verifica que la API local esté activa.</p>{retry && <button className="button-secondary mt-4" onClick={retry}>Reintentar</button>}</div></div>; }
