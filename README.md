@@ -28,6 +28,7 @@ Que un archivo o modelo exista no significa que su funcionalidad esté terminada
 - [ADR del stack de persistencia](docs/adr/adr_001_python_db_stack.md).
 - [Política de seguridad](SECURITY.md).
 - [CLI de laboratorio](scripts/honeytrace-cli/README.md): herramienta Go para ataques reales controlados contra el honeypot autorizado.
+- [Instalación en Raspberry Pi](scripts/raspberry-pi/README.md): SSD SATA por UUID, límites para 2 GB y arranque automático.
 
 ## Hito de campo
 
