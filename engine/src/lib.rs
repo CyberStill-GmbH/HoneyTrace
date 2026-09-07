@@ -8,8 +8,10 @@ pub mod error;
 pub mod ingest;
 pub mod model;
 pub mod provenance;
+pub mod pipeline;
 pub mod reconstruct;
 pub mod scoring;
+pub mod uploader;
 
 pub use error::EngineError;
 pub use model::{AttackTrace, CorrelationGroup, Entity, Evidence, NormalizedEvent};
