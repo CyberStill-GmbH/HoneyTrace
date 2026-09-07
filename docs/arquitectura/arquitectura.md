@@ -61,7 +61,7 @@ Recibe telemetría en paralelo al pipeline de HoneyTrace. Sirve como línea base
 Implementada en `visualizer/backend` con Express, TypeScript, Prisma y PostgreSQL. Expone de forma privada por cuenta los resultados del Engine, estadísticas, filtros, exportación y grafo, sin lógica investigativa propia. La ingestión usa tokens de dispositivo asociados a cada cuenta y la interfaz humana usa OAuth GitHub con cookies `HttpOnly` rotables.
 
 ### 9. Frontend
-Planificado; React + TypeScript + Three.js sólo se incorporará después de estabilizar pipeline, evaluación y hardware.
+Implementado en `visualizer/frontend` con React, TypeScript, Vite y Tailwind CSS. Consume exclusivamente la API privada, conserva GitHub OAuth mediante cookies `HttpOnly` y ofrece dashboard, historial filtrable, gestión de dispositivos y Attack Explorer 3D sin duplicar la lógica del Engine.
 
 ## Principios de diseño
 
