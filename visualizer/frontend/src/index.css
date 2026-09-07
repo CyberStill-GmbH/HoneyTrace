@@ -54,6 +54,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); background: var(--surface); border-right: 1px solid var(--border); z-index: 30; display: flex; flex-direction: column; }
 .brand-block { height: var(--header-height); display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-5); border-bottom: 1px solid var(--border); }
 .brand-mark { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); color: var(--accent); background: var(--bg-deep); }
+.sidebar-logo { display: block; width: 10.5rem; height: auto; }
 .nav-list { display: grid; gap: var(--space-1); padding: var(--space-4) var(--space-3); }
 .nav-link { position: relative; min-height: 2.5rem; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-3); border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: var(--text-sm); }
 .nav-link:hover { background: var(--surface-alt); color: var(--text-primary); }
@@ -118,11 +119,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .event-table { margin-top: var(--space-4); }
 .json-block { max-height: 12rem; overflow: auto; margin-top: var(--space-4); padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-deep); color: var(--text-tertiary); font: var(--text-xs) "IBM Plex Mono", monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
 
-.auth-page { min-height: 100vh; display: grid; place-items: center; padding: var(--space-6); background: var(--bg); }
-.auth-card { width: min(100%, 23.75rem); padding: var(--space-8); border-radius: var(--radius-lg); text-align: center; }
-.auth-card h1 { font: 500 var(--text-2xl)/1.2 "IBM Plex Serif", serif; letter-spacing: var(--tracking-display); margin: var(--space-5) 0 var(--space-2); }
-.auth-card p { color: var(--text-tertiary); margin: 0 0 var(--space-6); }
-.auth-card .button-primary { width: 100%; min-height: 2.75rem; }
+.auth-page { min-height: 100vh; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); background: var(--bg-deep); }
+.auth-shell { width: min(100%, 68rem); min-height: 38rem; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(22rem, .85fr); overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: 0 1.5rem 5rem #00000055; }
+.auth-brand-panel { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: clamp(2rem, 5vw, 4.5rem); overflow: hidden; background: var(--bg); border-right: 1px solid var(--border); }
+.auth-logo { display: block; width: min(15rem, 70%); height: auto; margin: -1.25rem 0 0 -1.25rem; }
+.auth-brand-copy { position: relative; z-index: 1; max-width: 32rem; }
+.auth-eyebrow { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-4); color: var(--accent); font: 600 var(--text-xs) "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.auth-brand-copy h1 { margin: 0; color: var(--text-primary); font-size: clamp(2.25rem, 4.2vw, 3.75rem); line-height: 1.02; letter-spacing: -.035em; }
+.auth-brand-copy > p:last-child { max-width: 32rem; margin: var(--space-5) 0 0; color: var(--text-tertiary); font-size: 1rem; }
+.auth-signal { position: relative; z-index: 1; display: flex; align-items: center; gap: clamp(1.75rem, 5vw, 4rem); width: min(100%, 28rem); height: 2rem; }
+.auth-signal::before { content: ""; position: absolute; left: .25rem; right: .25rem; height: 1px; background: var(--border-strong); }
+.auth-signal span { position: relative; width: .55rem; height: .55rem; border: 2px solid var(--bg); border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 1px var(--brand); }
+.auth-signal span:nth-child(2) { background: var(--sev-recon); }
+.auth-signal span:nth-child(3) { background: var(--sev-bruteforce); }
+.auth-signal span:nth-child(4) { background: var(--sev-adminaccess); }
+.auth-access-panel { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 5vw, 4rem); }
+.auth-icon { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; margin-bottom: var(--space-6); border: 1px solid var(--border-strong); border-radius: var(--radius-md); color: var(--accent); background: var(--bg-deep); }
+.auth-kicker { margin: 0 0 var(--space-2); color: var(--accent); font: 600 var(--text-xs) "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+.auth-access-copy h2 { margin: 0; font-size: var(--text-2xl); line-height: 1.2; }
+.auth-access-copy > p:last-child { margin: var(--space-3) 0 var(--space-8); color: var(--text-tertiary); font-size: .9375rem; }
+.auth-github-button { min-height: 3.25rem; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-3); width: 100%; padding: 0 var(--space-4); border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--text-primary); color: var(--bg-deep); font-size: var(--text-sm); font-weight: 700; text-decoration: none; transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard); }
+.auth-github-button:hover { background: #e8e7ec; transform: translateY(-1px); }
+.auth-button-arrow { font: 500 var(--text-lg) "IBM Plex Mono", monospace; }
+.auth-loading { min-height: 3.25rem; display: flex; align-items: center; justify-content: center; gap: var(--space-2); color: var(--text-tertiary); font-size: var(--text-sm); }
+.auth-private { display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin-top: var(--space-5); color: var(--text-muted); font-size: var(--text-xs); }
 .empty-state, .error-state, .loading-state { min-height: 14rem; display: grid; place-items: center; text-align: center; padding: var(--space-8); color: var(--text-tertiary); }
 .skeleton { background: var(--border); border-radius: var(--radius-sm); opacity: .5; }
 .token-reveal { padding: var(--space-4); border: 1px solid var(--accent); border-radius: var(--radius-md); background: var(--brand-glow); }
@@ -147,6 +167,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
   .graph-area { height: 26rem; }
   .feed-row { grid-template-columns: auto minmax(0, 1fr); }
   .feed-row .timestamp { grid-column: 2; }
+  .auth-page { align-items: start; padding: 0; }
+  .auth-shell { min-height: 100vh; grid-template-columns: 1fr; border: 0; border-radius: 0; }
+  .auth-brand-panel { min-height: 18rem; padding: var(--space-6); border-right: 0; border-bottom: 1px solid var(--border); }
+  .auth-logo { width: 12rem; margin: -.85rem 0 var(--space-8) -.85rem; }
+  .auth-brand-copy h1 { font-size: clamp(2rem, 10vw, 2.8rem); }
+  .auth-brand-copy > p:last-child, .auth-signal { display: none; }
+  .auth-access-panel { padding: var(--space-8) var(--space-6); }
 }
 @media (max-width: 30rem) { .metric-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; } }

@@ -29,6 +29,9 @@ services:
     environment:
       DATABASE_URL: postgresql://visualizer:visualizer-local-only@postgres:5432/honeytrace_visualizer
       OAUTH_STATE_SECRET: development-secret-change-me-please-32
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      GITHUB_CALLBACK_URL: http://localhost:8080/api/auth/github/callback
       FRONTEND_URL: http://localhost:5173
       COOKIE_SECURE: "false"
       COOKIE_SAME_SITE: lax

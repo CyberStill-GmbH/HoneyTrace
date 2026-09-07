@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Activity, Boxes, Cpu, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, X } from "lucide-react";
+import { Activity, Boxes, Cpu, LayoutDashboard, LogOut, Menu, Settings, X } from "lucide-react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
@@ -18,7 +18,7 @@ export function Layout() {
   const title = nav.find((item) => item.end ? location.pathname === item.to : location.pathname.startsWith(item.to))?.label ?? "Attack Explorer";
   return <div className="app-shell">
     <aside className="sidebar" data-open={open} aria-label="Navegación principal">
-      <div className="brand-block"><span className="brand-mark"><ShieldCheck size={17} /></span><div><strong>HoneyTrace</strong><div className="text-[var(--text-xs)] text-[var(--text-muted)]">Visualizer</div></div><button className="button-ghost ml-auto md:hidden" aria-label="Cerrar navegación" onClick={() => setOpen(false)}><X size={18} /></button></div>
+      <div className="brand-block"><img className="sidebar-logo" src="/honeytrace-logo.svg" alt="HoneyTrace" /><button className="button-ghost ml-auto md:hidden" aria-label="Cerrar navegación" onClick={() => setOpen(false)}><X size={18} /></button></div>
       <nav className="nav-list">{nav.map(({ to, label, icon: Icon, end }) => <NavLink key={to} to={to} end={end} onClick={() => setOpen(false)} className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}><Icon size={17} aria-hidden="true" />{label}</NavLink>)}</nav>
       <div className="sidebar-status"><div className="status-line"><span className="status-dot" />API local</div><div className="mt-2 flex items-center gap-2 text-[var(--text-xs)] text-[var(--text-muted)]"><Boxes size={13} />Datos privados por cuenta</div></div>
     </aside>

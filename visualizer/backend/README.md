@@ -48,9 +48,12 @@ npm ci
 npm run prisma:generate
 npm run build
 npm test
-docker compose up -d --build
+docker compose up -d postgres
 npm run db:migrate
+npm run dev
 ```
+
+`npm run dev` carga el archivo `.env`. Para OAuth local deben definirse `GITHUB_CLIENT_ID` y `GITHUB_CLIENT_SECRET`. Como alternativa, `docker compose up -d --build` inicia PostgreSQL y la API tomando ambos valores desde ese archivo.
 
 Las pruebas unitarias y de integración usan `MemoryRepository`. El E2E real vive en `tests/e2e` de la raíz y recorre HTTP + Express + Prisma + PostgreSQL. Requiere una base dedicada cuyo nombre contenga `e2e`:
 
