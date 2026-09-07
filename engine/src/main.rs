@@ -70,7 +70,10 @@ impl Config {
 }
 
 fn unix_now() -> u64 {
-    SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_secs()
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_secs()
 }
 
 #[cfg(unix)]
@@ -80,7 +83,9 @@ fn file_id(metadata: &fs::Metadata) -> u64 {
 }
 
 #[cfg(not(unix))]
-fn file_id(_metadata: &fs::Metadata) -> u64 { 0 }
+fn file_id(_metadata: &fs::Metadata) -> u64 {
+    0
+}
 
 fn load_state(path: &Path) -> Result<AgentState, Box<dyn std::error::Error>> {
     match fs::read(path) {
@@ -91,9 +96,15 @@ fn load_state(path: &Path) -> Result<AgentState, Box<dyn std::error::Error>> {
 }
 
 fn save_state(path: &Path, state: &AgentState) -> Result<(), Box<dyn std::error::Error>> {
-    if let Some(parent) = path.parent() { fs::create_dir_all(parent)?; }
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
     let temporary = path.with_extension("tmp");
-    let mut file = OpenOptions::new().create(true).truncate(true).write(true).open(&temporary)?;
+    let mut file = OpenOptions::new()
+        .create(true)
+        .truncate(true)
+        .write(true)
+        .open(&temporary)?;
     serde_json::to_writer(&mut file, state)?;
     file.flush()?;
     file.sync_all()?;
@@ -101,7 +112,11 @@ fn save_state(path: &Path, state: &AgentState) -> Result<(), Box<dyn std::error:
     Ok(())
 }
 
-fn collect_lines(file: File, offset: &mut u64, state: &mut AgentState) -> Result<usize, Box<dyn std::error::Error>> {
+fn collect_lines(
+    file: File,
+    offset: &mut u64,
+    state: &mut AgentState,
+) -> Result<usize, Box<dyn std::error::Error>> {
     let mut reader = BufReader::new(file);
     reader.seek(SeekFrom::Start(*offset))?;
     let mut consumed = 0;
@@ -109,7 +124,9 @@ fn collect_lines(file: File, offset: &mut u64, state: &mut AgentState) -> Result
         let line_start = reader.stream_position()?;
         let mut line = String::new();
         let bytes = reader.read_line(&mut line)?;
-        if bytes == 0 { break; }
+        if bytes == 0 {
+            break;
+        }
         if !line.ends_with('\n') {
             *offset = line_start;
             break;
@@ -119,10 +136,20 @@ fn collect_lines(file: File, offset: &mut u64, state: &mut AgentState) -> Result
         match serde_json::from_str::<NormalizedEvent>(line.trim()) {
             Ok(event) => {
                 let now = unix_now();
-                let pending = state.pending.entry(event.trace_id.clone()).or_insert_with(|| PendingTrace {
-                    events: Vec::new(), updated_at: now, attempts: 0, retry_at: 0,
-                });
-                if !pending.events.iter().any(|item| item.event_id == event.event_id) {
+                let pending = state
+                    .pending
+                    .entry(event.trace_id.clone())
+                    .or_insert_with(|| PendingTrace {
+                        events: Vec::new(),
+                        updated_at: now,
+                        attempts: 0,
+                        retry_at: 0,
+                    });
+                if !pending
+                    .events
+                    .iter()
+                    .any(|item| item.event_id == event.event_id)
+                {
                     pending.events.push(event);
                     pending.updated_at = now;
                     pending.attempts = 0;
@@ -169,23 +196,39 @@ fn read_appended(path: &Path, state: &mut AgentState) -> Result<usize, Box<dyn s
 
 fn upload_ready(state: &mut AgentState, config: &Config, uploader: &ApiUploader) -> bool {
     let now = unix_now();
-    let ready = state.pending.iter()
-        .filter(|(_, trace)| now.saturating_sub(trace.updated_at) >= config.settle_after_secs && now >= trace.retry_at)
-        .map(|(trace_id, _)| trace_id.clone()).collect::<Vec<_>>();
+    let ready = state
+        .pending
+        .iter()
+        .filter(|(_, trace)| {
+            now.saturating_sub(trace.updated_at) >= config.settle_after_secs
+                && now >= trace.retry_at
+        })
+        .map(|(trace_id, _)| trace_id.clone())
+        .collect::<Vec<_>>();
     let mut changed = false;
     for trace_id in ready {
-        let Some(pending) = state.pending.get(&trace_id) else { continue; };
+        let Some(pending) = state.pending.get(&trace_id) else {
+            continue;
+        };
         match reconstruct(&config.source_id, &pending.events) {
             Ok(envelopes) => match envelopes.iter().try_for_each(|item| uploader.upload(item)) {
                 Ok(()) => {
-                    println!("traza {trace_id} enviada ({} eventos)", pending.events.len());
+                    println!(
+                        "traza {trace_id} enviada ({} eventos)",
+                        pending.events.len()
+                    );
                     state.pending.remove(&trace_id);
                     changed = true;
                 }
                 Err(error) => {
                     let trace = state.pending.get_mut(&trace_id).expect("traza existente");
                     trace.attempts = trace.attempts.saturating_add(1);
-                    trace.retry_at = now + if error.retryable() { 2_u64.pow(trace.attempts.min(8)).min(300) } else { 300 };
+                    trace.retry_at = now
+                        + if error.retryable() {
+                            2_u64.pow(trace.attempts.min(8)).min(300)
+                        } else {
+                            300
+                        };
                     eprintln!("no se pudo enviar {trace_id}: {error}");
                     changed = true;
                 }
@@ -202,17 +245,28 @@ fn upload_ready(state: &mut AgentState, config: &Config, uploader: &ApiUploader)
 }
 
 fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let config = Config::from_env().map_err(|message| format!("configuración inválida: {message}"))?;
+    let config =
+        Config::from_env().map_err(|message| format!("configuración inválida: {message}"))?;
     let token = fs::read_to_string(&config.token_file)?.trim().to_owned();
-    if token.is_empty() { return Err("el archivo del token de ingestión está vacío".into()); }
+    if token.is_empty() {
+        return Err("el archivo del token de ingestión está vacío".into());
+    }
     let uploader = ApiUploader::new(&config.api_url, token)?;
     let mut state = load_state(&config.state_file)?;
-    println!("HoneyTrace Engine sigue {} y publica como {}", config.events_file.display(), config.source_id);
+    println!(
+        "HoneyTrace Engine sigue {} y publica como {}",
+        config.events_file.display(),
+        config.source_id
+    );
     loop {
         let read = read_appended(&config.events_file, &mut state)?;
         let changed = upload_ready(&mut state, &config, &uploader);
-        if read > 0 || changed { save_state(&config.state_file, &state)?; }
-        if config.run_once { break; }
+        if read > 0 || changed {
+            save_state(&config.state_file, &state)?;
+        }
+        if config.run_once {
+            break;
+        }
         thread::sleep(config.poll_interval);
     }
 }
