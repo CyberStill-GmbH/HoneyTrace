@@ -19,6 +19,13 @@ for attempt in $(seq 1 60); do
   sleep 2
 done
 
+ENGINE_ID="$(docker compose --env-file "${ENV_FILE}" -f "${COMPOSE_FILE}" ps -q engine)"
+[[ -n "${ENGINE_ID}" ]] || { echo "Engine no creado" >&2; exit 1; }
+[[ "$(docker inspect -f '{{.State.Running}}' "${ENGINE_ID}")" == "true" ]] || {
+  docker compose --env-file "${ENV_FILE}" -f "${COMPOSE_FILE}" logs --tail 80 engine >&2
+  exit 1
+}
+
 AVAILABLE_KB="$(awk '/MemAvailable:/ { print $2 }' /proc/meminfo)"
 FREE_BYTES="$(df -B1 --output=avail "${HONEYTRACE_DATA_ROOT}" | tail -n1 | tr -d ' ')"
 TEMPERATURE="unavailable"
@@ -28,4 +35,3 @@ fi
 
 printf 'HoneyTrace OK | memoria_disponible=%sMiB | ssd_libre=%sMiB | temperatura=%s\n' \
   "$((AVAILABLE_KB / 1024))" "$((FREE_BYTES / 1024 / 1024))" "${TEMPERATURE}"
-

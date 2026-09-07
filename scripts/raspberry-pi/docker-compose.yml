@@ -1,0 +1,111 @@
+services:
+  honeypot:
+    build:
+      context: ../../honeypot
+      dockerfile: Dockerfile
+    container_name: honeytrace-rpi-honeypot
+    restart: unless-stopped
+    init: true
+    ports:
+      - "${HONEYPOT_BIND_ADDRESS:-127.0.0.1}:${HONEYPOT_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://honeytrace:${HONEYPOT_DB_PASSWORD:?define HONEYPOT_DB_PASSWORD}@postgres:5432/honeytrace
+      HONEYTRACE_LOG_DIR: /var/log/honeytrace
+      HONEYTRACE_LOG_MAX_BYTES: ${HONEYTRACE_LOG_MAX_BYTES:-5242880}
+      HONEYTRACE_LOG_BACKUPS: ${HONEYTRACE_LOG_BACKUPS:-2}
+      PYTHONDONTWRITEBYTECODE: "1"
+    command: ["sh", "-c", "alembic upgrade head && python -m app.db.seed && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+    volumes:
+      - ${HONEYTRACE_DATA_ROOT:?define HONEYTRACE_DATA_ROOT}/logs:/var/log/honeytrace
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [honeypot-lab]
+    mem_limit: 448m
+    cpus: 0.80
+    pids_limit: 256
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "2"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: honeytrace-rpi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: honeytrace
+      POSTGRES_PASSWORD: ${HONEYPOT_DB_PASSWORD:?define HONEYPOT_DB_PASSWORD}
+      POSTGRES_DB: honeytrace
+    volumes:
+      - ${HONEYTRACE_DATA_ROOT:?define HONEYTRACE_DATA_ROOT}/postgres:/var/lib/postgresql/data
+    networks: [honeypot-lab]
+    mem_limit: 384m
+    cpus: 0.70
+    pids_limit: 192
+    security_opt: [no-new-privileges:true]
+    shm_size: 64m
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "2"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U honeytrace -d honeytrace"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  engine:
+    build:
+      context: ../../engine
+      dockerfile: Dockerfile
+    container_name: honeytrace-rpi-engine
+    restart: unless-stopped
+    init: true
+    environment:
+      HONEYTRACE_EVENTS_FILE: /var/log/honeytrace/events.ndjson
+      HONEYTRACE_STATE_FILE: /var/lib/honeytrace/engine-state.json
+      HONEYTRACE_INGEST_TOKEN_FILE: /run/secrets/honeytrace-ingest-token
+      HONEYTRACE_API_URL: ${HONEYTRACE_API_URL:?define HONEYTRACE_API_URL}
+      HONEYTRACE_SOURCE_ID: ${HONEYTRACE_SOURCE_ID:?define HONEYTRACE_SOURCE_ID}
+      HONEYTRACE_POLL_SECONDS: ${HONEYTRACE_POLL_SECONDS:-2}
+      HONEYTRACE_SETTLE_SECONDS: ${HONEYTRACE_SETTLE_SECONDS:-3}
+    volumes:
+      - ${HONEYTRACE_DATA_ROOT:?define HONEYTRACE_DATA_ROOT}/logs:/var/log/honeytrace:ro
+      - ${HONEYTRACE_DATA_ROOT:?define HONEYTRACE_DATA_ROOT}/engine:/var/lib/honeytrace
+      - ${HONEYTRACE_INGEST_TOKEN_FILE:?define HONEYTRACE_INGEST_TOKEN_FILE}:/run/secrets/honeytrace-ingest-token:ro
+    depends_on:
+      honeypot:
+        condition: service_healthy
+    networks: [telemetry-egress]
+    mem_limit: 256m
+    cpus: 0.60
+    pids_limit: 128
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "2"
+
+networks:
+  honeypot-lab:
+    internal: true
+  telemetry-egress: {}
