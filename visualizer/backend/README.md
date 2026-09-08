@@ -10,6 +10,11 @@ Engine Rust local/Raspberry -> token de dispositivo de la cuenta -> POST /api/v1
                                                         -> historial de visualización
 ```
 
+El agente del Engine sigue el archivo de eventos, espera tres segundos sin cambios
+en una traza antes de reconstruirla y conserva en disco los envíos pendientes. Los
+errores de red, `429` y `5xx` se reintentan con backoff; una credencial revocada no
+se registra ni se expone en los mensajes de error.
+
 La ingestión es saliente desde la Raspberry/PC. Railway no intenta acceder al `localhost` del dispositivo. Para desarrollo puede usarse un túnel sobre un relay separado, nunca sobre el puerto del honeypot.
 
 ## Persistencia

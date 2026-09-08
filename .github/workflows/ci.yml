@@ -24,7 +24,7 @@ jobs:
       - name: Unit and integration tests
         env:
           PYTHONPATH: ${{ github.workspace }}:${{ github.workspace }}/honeypot
-        run: pytest -q honeypot/tests collector/tests normalizer/tests
+        run: pytest -q honeypot/tests collector/tests normalizer/tests tests/physical/test_rpi_deployment_files.py
 
   e2e:
     name: Docker E2E against isolated honeypot

@@ -26,6 +26,17 @@ def test_pi_compose_is_resource_limited_and_uses_ssd() -> None:
     compose = COMPOSE.read_text(encoding="utf-8")
     assert "mem_limit: 448m" in compose
     assert "mem_limit: 384m" in compose
+    assert "mem_limit: 256m" in compose
     assert "internal: true" in compose
     assert "HONEYTRACE_DATA_ROOT" in compose
     assert "restart: unless-stopped" in compose
+    assert "HONEYTRACE_INGEST_TOKEN_FILE" in compose
+    assert "HONEYTRACE_API_URL" in compose
+    assert "../../engine" in compose
+
+
+def test_installer_requires_private_ingest_configuration() -> None:
+    script = INSTALLER.read_text(encoding="utf-8")
+    assert "--api-url" in script
+    assert "--ingest-token-file" in script
+    assert 'install -m 0400 "${INGEST_TOKEN_FILE}" "${TOKEN_FILE}"' in script
