@@ -1,4 +1,19 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
+
+fn empty_object() -> serde_json::Value {
+    serde_json::json!({})
+}
+
+fn deserialize_metadata<'de, D>(deserializer: D) -> Result<serde_json::Value, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    match Option::<serde_json::Value>::deserialize(deserializer)? {
+        None | Some(serde_json::Value::Null) => Ok(empty_object()),
+        Some(value @ serde_json::Value::Object(_)) => Ok(value),
+        Some(_) => Err(serde::de::Error::custom("metadata debe ser un objeto")),
+    }
+}
 
 /// Contrato de `schemas/normalized_event.schema.json`.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -41,7 +56,7 @@ pub struct NormalizedEvent {
     pub entities: Vec<Entity>,
     #[serde(default)]
     pub causes: Vec<String>,
-    #[serde(default)]
+    #[serde(default = "empty_object", deserialize_with = "deserialize_metadata")]
     pub metadata: serde_json::Value,
 }
 

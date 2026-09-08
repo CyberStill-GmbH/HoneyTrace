@@ -163,6 +163,8 @@ activemq-data/
 
 # Environments
 .env
+engine/.ingest-token
+engine/runtime/
 .envrc
 .venv
 env/

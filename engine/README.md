@@ -19,7 +19,9 @@ honeypot -> collector -> normalizer -> engine (Rust) -> Wazuh/visor
 - `reconstruct.rs`: puerto `AttackReconstructor::reconstruct` y reconstrucción por reglas de las cinco señales del honeypot.
 - `scoring.rs`: puerto `AttributionScorer::score` y puntuación inicial interpretable basada en cobertura de evidencia.
 - `error.rs`: errores tipados para que los consumidores no confundan ausencia de algoritmo con resultado vacío.
-- `main.rs`: ejecutable de verificación del scaffold, no un servicio de producción.
+- `main.rs`: agente continuo que sigue el NDJSON, conserva offset y trazas pendientes en disco, espera el cierre lógico de cada traza y reintenta la publicación con backoff.
+- `pipeline.rs`: ejecuta correlación, reconstrucción y scoring y crea el contrato de ingestión.
+- `uploader.rs`: publica el contrato en la API privada con un token de dispositivo, timeout y clasificación de errores reintentables.
 - `tests/contracts.rs`: garantiza que los puertos deliberadamente no implementados fallan explícitamente.
 - `tests/pipeline.rs`: integración completa desde eventos hasta `AttackTrace` auditable.
 
@@ -52,6 +54,11 @@ cargo fmt --manifest-path engine/Cargo.toml -- --check
 cargo test --manifest-path engine/Cargo.toml
 cargo run --manifest-path engine/Cargo.toml
 ```
+
+El servicio requiere `HONEYTRACE_EVENTS_FILE`, `HONEYTRACE_STATE_FILE`,
+`HONEYTRACE_INGEST_TOKEN_FILE`, `HONEYTRACE_API_URL` y `HONEYTRACE_SOURCE_ID`.
+El token se lee desde un archivo y nunca se imprime. `HONEYTRACE_RUN_ONCE=true`
+permite una ejecución única para diagnóstico; en Raspberry se ejecuta continuamente.
 
 La integración continua ejecuta `fmt`, `check` y `test`. El siguiente paso es implementar un módulo por vez, comenzando por validación del contrato y después correlación determinista; no se debe mezclar el motor con `collector/` ni `normalizer/`.
 

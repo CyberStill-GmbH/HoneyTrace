@@ -66,12 +66,13 @@ impl AttackReconstructor for RuleBasedReconstructor {
 }
 
 fn vulnerability_mapping(value: &str) -> Option<(&'static str, &'static str)> {
-    match value {
+    let canonical = value.trim().to_ascii_lowercase().replace([' ', '-'], "_");
+    match canonical.as_str() {
         "brute_force" => Some(("auth-brute-force", "T1110")),
         "idor" => Some(("users-idor", "HT-IDOR")),
         "sqli" => Some(("products-sqli", "HT-SQLI")),
         "path_traversal" => Some(("files-path-traversal", "HT-PATH-TRAVERSAL")),
-        "stored_xss" => Some(("orders-stored-xss", "HT-STORED-XSS")),
+        "stored_xss" | "stored_xss_mediante_note" => Some(("orders-stored-xss", "HT-STORED-XSS")),
         _ => None,
     }
 }
@@ -116,5 +117,18 @@ mod tests {
         let trace = RuleBasedReconstructor.reconstruct(&group).unwrap();
         assert_eq!(trace.stages, vec!["auth-brute-force"]);
         assert_eq!(trace.evidence.len(), 1);
+    }
+
+    #[test]
+    fn reconoce_las_etiquetas_reales_del_honeypot() {
+        for (label, technique) in [
+            ("Brute Force", "T1110"),
+            ("IDOR", "HT-IDOR"),
+            ("SQLi", "HT-SQLI"),
+            ("Path Traversal", "HT-PATH-TRAVERSAL"),
+            ("Stored XSS mediante Note", "HT-STORED-XSS"),
+        ] {
+            assert_eq!(vulnerability_mapping(label).unwrap().1, technique);
+        }
     }
 }
