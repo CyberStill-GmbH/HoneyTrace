@@ -1,5 +1,5 @@
 export type User = { id: string; github_id: string; username: string; avatar_url?: string };
-export type Severity = "recon" | "brute-force" | "auth-success" | "admin-access" | "info";
+export type Severity = "recon" | "brute-force" | "idor" | "sqli" | "path-traversal" | "stored-xss" | "auth-success" | "admin-access" | "info";
 
 export type AnalysisSummary = {
   id: string; source_id: string; trace_id: string; confidence: number; stages: string[]; techniques: string[];
