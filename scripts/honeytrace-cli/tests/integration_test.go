@@ -15,7 +15,7 @@ import (
 // setupMockHoneypot initializes a full HTTP test server mimicking the HoneyTrace Python Honeypot backend.
 func setupMockHoneypot() *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-Trace-ID", "integration-trace-abc-123")
+		w.Header().Set("X-Trace-ID", r.Header.Get("X-Trace-ID"))
 
 		switch {
 		case r.URL.Path == "/health":
@@ -103,6 +103,7 @@ func TestFullIntegrationSuite(t *testing.T) {
 		t.Errorf("Expected exactly %d results, got %d", expectedStepCount, len(results))
 	}
 
+	traceID := results[0].TraceID
 	for _, res := range results {
 		if !res.Passed {
 			t.Errorf("Step %s/%s failed: status=%d, expected=%s", res.Scenario, res.Step, res.Status, res.Expected)
@@ -110,7 +111,7 @@ func TestFullIntegrationSuite(t *testing.T) {
 		if res.BodySHA256 == "" {
 			t.Errorf("Step %s/%s missing body SHA256 hash", res.Scenario, res.Step)
 		}
-		if res.TraceID != "integration-trace-abc-123" {
+		if len(traceID) != 32 || res.TraceID != traceID {
 			t.Errorf("Step %s/%s unexpected trace ID: %s", res.Scenario, res.Step, res.TraceID)
 		}
 	}

@@ -16,7 +16,8 @@ node_modules/
 downloads/
 eggs/
 .eggs/
-lib/
+/lib/
+.github/skills/impeccable/scripts/lib/
 lib64/
 parts/
 sdist/

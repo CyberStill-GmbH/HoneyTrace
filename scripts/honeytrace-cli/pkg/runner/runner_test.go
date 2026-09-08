@@ -13,7 +13,7 @@ import (
 
 func newTestServer() *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-Trace-ID", "test-trace-uuid")
+		w.Header().Set("X-Trace-ID", r.Header.Get("X-Trace-ID"))
 
 		switch {
 		case r.URL.Path == "/health":
@@ -125,6 +125,17 @@ func TestRunScenarioAll(t *testing.T) {
 	}
 	if len(results) != 10 {
 		t.Errorf("expected exactly 10 step results for 'all', got %d", len(results))
+	}
+	if len(results) > 0 {
+		trace := results[0].TraceID
+		if len(trace) != 32 {
+			t.Fatalf("expected a 32-character campaign trace, got %q", trace)
+		}
+		for _, result := range results {
+			if result.TraceID != trace {
+				t.Fatalf("all steps must share trace %q, got %q", trace, result.TraceID)
+			}
+		}
 	}
 }
 

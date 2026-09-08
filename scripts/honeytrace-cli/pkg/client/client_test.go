@@ -54,6 +54,29 @@ func TestClientCallWithHeader(t *testing.T) {
 	}
 }
 
+func TestBeginTraceIsPropagated(t *testing.T) {
+	var received string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		received = r.Header.Get("X-Trace-ID")
+		w.Header().Set("X-Trace-ID", received)
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
+	c := NewClient(2 * time.Second)
+	trace, err := c.BeginTrace()
+	if err != nil {
+		t.Fatalf("BeginTrace failed: %v", err)
+	}
+	_, _, echoed, err := c.Call(server.URL, http.MethodGet, "/event", nil)
+	if err != nil {
+		t.Fatalf("Call failed: %v", err)
+	}
+	if len(trace) != 32 || received != trace || echoed != trace {
+		t.Fatalf("trace was not propagated consistently: generated=%q received=%q echoed=%q", trace, received, echoed)
+	}
+}
+
 func TestValidateBaseURL(t *testing.T) {
 	valid := []string{"http://127.0.0.1:8000", "https://honeypot.example.test/base"}
 	for _, raw := range valid {

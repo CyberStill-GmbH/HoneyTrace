@@ -2,6 +2,8 @@ package client
 
 import (
 	"bytes"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -15,6 +17,25 @@ import (
 type Client struct {
 	HTTPClient *http.Client
 	UserAgent  string
+	TraceID    string
+}
+
+// BeginTrace creates one identifier shared by every request in a laboratory run.
+// The honeypot accepts 32 hexadecimal characters and echoes the value in its response.
+func (c *Client) BeginTrace() (string, error) {
+	buffer := make([]byte, 16)
+	if _, err := rand.Read(buffer); err != nil {
+		return "", fmt.Errorf("no se pudo crear el ID de traza: %w", err)
+	}
+	c.TraceID = hex.EncodeToString(buffer)
+	return c.TraceID, nil
+}
+
+func (c *Client) setTelemetryHeaders(req *http.Request) {
+	req.Header.Set("User-Agent", c.UserAgent)
+	if c.TraceID != "" {
+		req.Header.Set("X-Trace-ID", c.TraceID)
+	}
 }
 
 // ValidateBaseURL comprueba que el destino sea una URL HTTP(S) absoluta.
@@ -56,7 +77,7 @@ func (c *Client) Call(base, method, path string, body any) (int, string, string,
 		return 0, "", "", err
 	}
 
-	req.Header.Set("User-Agent", c.UserAgent)
+	c.setTelemetryHeaders(req)
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
@@ -79,7 +100,7 @@ func (c *Client) CallWithHeader(base, method, path, key, value string) (int, str
 	}
 
 	req.Header.Set(key, value)
-	req.Header.Set("User-Agent", c.UserAgent)
+	c.setTelemetryHeaders(req)
 
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
