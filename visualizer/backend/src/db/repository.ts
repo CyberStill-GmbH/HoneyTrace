@@ -2,11 +2,12 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { config } from "../config.js";
 import type { AnalysisFilters, AttackTrace, HistoryInput, IngestInput, NormalizedEvent } from "../types.js";
+import { interpretAnalysis, type AnalysisInterpretation } from "../analysis/interpretation.js";
 
 export type User = { id: string; github_id: string; username: string; avatar_url?: string };
 export type AuthTokens = { accessToken: string; refreshToken: string };
 export type AnalysisSummary = { id: string; source_id: string; trace_id: string; confidence: number; stages: string[]; techniques: string[]; created_at: string; started_at: string; ended_at: string };
-export type AnalysisDetail = AnalysisSummary & { schema_version: string; evidence: unknown[]; events: NormalizedEvent[]; raw_trace: AttackTrace };
+export type AnalysisDetail = AnalysisSummary & { schema_version: string; evidence: unknown[]; events: NormalizedEvent[]; raw_trace: AttackTrace; interpretation: AnalysisInterpretation };
 export type Stats = { total: number; recent_24h: number; average_confidence: number; by_source: Record<string, number>; by_stage: Record<string, number>; by_technique: Record<string, number> };
 export type IngestTokenView = { id: string; name: string; token_hint: string; created_at: string; last_used_at?: string; revoked_at?: string };
 
@@ -38,7 +39,9 @@ function summaryView(row: any): AnalysisSummary {
   return { id: row.id, source_id: row.sourceId, trace_id: row.traceId, confidence: row.confidence, stages: strings(row.stages), techniques: strings(row.techniques), created_at: iso(row.createdAt), started_at: iso(row.startedAt), ended_at: iso(row.endedAt) };
 }
 function detailView(row: any): AnalysisDetail {
-  return { ...summaryView(row), schema_version: row.schemaVersion, evidence: Array.isArray(row.evidence) ? row.evidence : [], raw_trace: row.rawTrace as AttackTrace, events: (row.events ?? []).map((event: any) => eventView(event.data)) };
+  const rawTrace = row.rawTrace as AttackTrace;
+  const events = (row.events ?? []).map((event: any) => eventView(event.data));
+  return { ...summaryView(row), schema_version: row.schemaVersion, evidence: Array.isArray(row.evidence) ? row.evidence : [], raw_trace: rawTrace, events, interpretation: interpretAnalysis(rawTrace, events) };
 }
 
 export class PrismaRepository implements Repository {
@@ -142,7 +145,7 @@ export class PrismaRepository implements Repository {
 
 export class MemoryRepository implements Repository {
   private users = new Map<string, User>(); private sessions = new Map<string, { user: User; refresh: string }>(); private ingestTokens = new Map<string, { id: string; userId: string; view: IngestTokenView }>(); private analyses = new Map<string, { userId: string; detail: AnalysisDetail }>();
-  async ingest(userId: string, input: IngestInput) { const existing = [...this.analyses.values()].find((item) => item.userId === userId && item.detail.source_id === input.source_id && item.detail.trace_id === input.trace.trace_id); const detail: AnalysisDetail = { id: existing?.detail.id ?? randomUUID(), source_id: input.source_id, trace_id: input.trace.trace_id, confidence: input.trace.confidence, stages: input.trace.stages, techniques: input.trace.techniques, created_at: existing?.detail.created_at ?? new Date().toISOString(), started_at: input.trace.started_at, ended_at: input.trace.ended_at, schema_version: input.schema_version, evidence: input.trace.evidence, events: input.events, raw_trace: input.trace }; this.analyses.set(detail.id, { userId, detail }); return detail; }
+  async ingest(userId: string, input: IngestInput) { const existing = [...this.analyses.values()].find((item) => item.userId === userId && item.detail.source_id === input.source_id && item.detail.trace_id === input.trace.trace_id); const detail: AnalysisDetail = { id: existing?.detail.id ?? randomUUID(), source_id: input.source_id, trace_id: input.trace.trace_id, confidence: input.trace.confidence, stages: input.trace.stages, techniques: input.trace.techniques, created_at: existing?.detail.created_at ?? new Date().toISOString(), started_at: input.trace.started_at, ended_at: input.trace.ended_at, schema_version: input.schema_version, evidence: input.trace.evidence, events: input.events, raw_trace: input.trace, interpretation: interpretAnalysis(input.trace, input.events) }; this.analyses.set(detail.id, { userId, detail }); return detail; }
   async listAnalyses(userId: string, filters: AnalysisFilters) { let rows = [...this.analyses.values()].filter((row) => row.userId === userId).map((row) => row.detail); rows = rows.filter((row) => (!filters.source_id || row.source_id === filters.source_id) && (!filters.stage || row.stages.includes(filters.stage)) && (!filters.technique || row.techniques.includes(filters.technique)) && (filters.min_confidence === undefined || row.confidence >= filters.min_confidence) && (filters.max_confidence === undefined || row.confidence <= filters.max_confidence) && (!filters.from || row.started_at >= filters.from) && (!filters.to || row.started_at <= filters.to) && (!filters.search || `${row.trace_id} ${row.source_id}`.toLowerCase().includes(filters.search.toLowerCase()))); const key = filters.sort === "created_at" ? "created_at" : filters.sort === "started_at" ? "started_at" : "confidence"; rows.sort((a, b) => (a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0) * (filters.order === "asc" ? 1 : -1)); return { total: rows.length, items: rows.slice(filters.offset, filters.offset + filters.limit).map(({ evidence: _e, events: _ev, raw_trace: _r, schema_version: _s, ...summary }) => summary) }; }
   async getAnalysis(userId: string, id: string) { const row = this.analyses.get(id); return row?.userId === userId ? row.detail : null; }
   async getStats(userId: string) { const rows = [...this.analyses.values()].filter((row) => row.userId === userId).map((row) => row.detail); const stats: Stats = { total: rows.length, recent_24h: rows.filter((row) => Date.parse(row.created_at) >= Date.now() - 86_400_000).length, average_confidence: rows.reduce((sum, row) => sum + row.confidence, 0) / (rows.length || 1), by_source: {}, by_stage: {}, by_technique: {} }; const add = (target: Record<string, number>, values: string[]) => values.forEach((value) => target[value] = (target[value] ?? 0) + 1); rows.forEach((row) => { add(stats.by_source, [row.source_id]); add(stats.by_stage, row.stages); add(stats.by_technique, row.techniques); }); return stats; }

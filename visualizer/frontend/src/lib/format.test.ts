@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analysisClassifications, analysisSeverity, severityFrom } from "./format";
+import { analysisClassifications, analysisSeverity, eventLabel, severityFrom } from "./format";
 
 describe("clasificación de análisis", () => {
   it.each([
@@ -19,5 +19,10 @@ describe("clasificación de análisis", () => {
 
   it("conserva todas las etapas de una campaña multivector", () => {
     expect(analysisClassifications({ stages: ["users-idor", "products-sqli", "orders-stored-xss"] })).toEqual(["idor", "sqli", "stored-xss"]);
+  });
+
+  it("traduce eventos técnicos a acciones comprensibles", () => {
+    expect(eventLabel("SQLI_ATTEMPT")).toBe("Consulta manipulada");
+    expect(eventLabel("HTTP_REQUEST")).toBe("Respuesta HTTP");
   });
 });
