@@ -69,7 +69,7 @@ mod tests {
     fn produce_el_contrato_que_acepta_el_visualizador() {
         let envelopes = reconstruct(
             "rpi-lab",
-            &[event("e1", Some("brute_force")), event("e2", None)],
+            &[event("e1", Some("Brute Force")), event("e2", None)],
         )
         .unwrap();
         assert_eq!(envelopes.len(), 1);

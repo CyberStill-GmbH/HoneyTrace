@@ -253,6 +253,12 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
     }
     let uploader = ApiUploader::new(&config.api_url, token)?;
     let mut state = load_state(&config.state_file)?;
+    // Un reinicio manual suele acompañar una corrección de red, credencial o contrato.
+    // Permite un intento inmediato sin descartar el contador persistido.
+    state
+        .pending
+        .values_mut()
+        .for_each(|trace| trace.retry_at = 0);
     println!(
         "HoneyTrace Engine sigue {} y publica como {}",
         config.events_file.display(),
@@ -265,7 +271,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             save_state(&config.state_file, &state)?;
         }
         if config.run_once {
-            break;
+            break Ok(());
         }
         thread::sleep(config.poll_interval);
     }

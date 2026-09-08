@@ -9,6 +9,8 @@ El sistema operativo puede seguir arrancando desde microSD. El SSD SATA conectad
 - Raspberry Pi 4 Model B de 2 GB con Raspberry Pi OS Lite de 64 bits.
 - SSD SATA con adaptador SATA–USB compatible y alimentación suficiente.
 - Repositorio HoneyTrace clonado en una ruta permanente de la Pi.
+- API del visualizador activa en otra computadora y accesible por su IP de laboratorio.
+- Token creado previamente en **Dispositivos** y copiado a un archivo local de la Pi.
 - Segmento de laboratorio autorizado y aislado.
 
 Identifica primero la partición correcta:
@@ -20,14 +22,27 @@ lsblk -o NAME,PATH,TYPE,FSTYPE,SIZE,MOUNTPOINTS,MODEL
 Para usar una partición ext4 existente:
 
 ```bash
-sudo ./scripts/raspberry-pi/install.sh --ssd-partition /dev/sda1
+printf '%s' 'PEGA_AQUI_EL_TOKEN' > /tmp/honeytrace-ingest-token
+chmod 600 /tmp/honeytrace-ingest-token
+sudo ./scripts/raspberry-pi/install.sh \
+  --ssd-partition /dev/sda1 \
+  --api-url http://192.0.2.10:8080 \
+  --ingest-token-file /tmp/honeytrace-ingest-token \
+  --source-id rpi-laboratorio
+rm /tmp/honeytrace-ingest-token
 ```
+
+La URL no puede ser `localhost`: desde la Raspberry debe apuntar a la IP del PC
+que ejecuta la API. El instalador copia el token a `/etc/honeytrace/ingest-token`
+con permisos `0400`; Docker lo monta como archivo de solo lectura.
 
 Para borrar y formatear explícitamente esa partición:
 
 ```bash
 sudo ./scripts/raspberry-pi/install.sh \
   --ssd-partition /dev/sda1 \
+  --api-url http://192.0.2.10:8080 \
+  --ingest-token-file /tmp/honeytrace-ingest-token \
   --format \
   --confirm-erase /dev/sda1
 ```
@@ -37,6 +52,8 @@ El honeypot escucha sólo en `127.0.0.1` por defecto. Durante una prueba autoriz
 ```bash
 sudo ./scripts/raspberry-pi/install.sh \
   --ssd-partition /dev/sda1 \
+  --api-url http://192.0.2.10:8080 \
+  --ingest-token-file /tmp/honeytrace-ingest-token \
   --bind-address 192.0.2.20
 ```
 
@@ -51,6 +68,12 @@ sudo systemctl stop honeytrace-rpi
 ```
 
 La configuración local queda en `/etc/honeytrace/raspberry.env` con permisos `0600`. Los datos se conservan al detener el servicio. El instalador guarda una copia fechada de `/etc/fstab` antes de actualizar su bloque administrado.
+
+El contenedor `engine` lee `events.ndjson` en modo de solo lectura, agrupa los
+eventos por traza, ejecuta la reconstrucción determinista y envía automáticamente
+los análisis publicables. El offset y las trazas todavía no entregadas viven en el
+SSD; una caída de red o un reinicio no descarta el lote pendiente. La API realiza
+un `upsert` por cuenta, fuente y traza para que un reintento sea idempotente.
 
 Antes de conectar la Pi a una red institucional, completa el checklist de `docs/oti_uni_test_plan.md`. El SSD y algunos adaptadores SATA–USB pueden requerir alimentación externa; valida escritura sostenida, reinicio, temperatura y estabilidad del enlace USB antes de la prueba.
 
