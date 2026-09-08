@@ -72,6 +72,11 @@ describe("Visualizer API integration", () => {
     const auth = { Authorization: `Bearer ${owner.session.accessToken}` };
     const detail = await request(app).get(`/api/v1/analyses/${id}`).set(auth);
     expect(detail.body.data.events[0]).toMatchObject({ source_ip: "10.0.0.7", method: "POST", entities: [{ id: "/auth", kind: "endpoint" }] });
+    expect(detail.body.data.interpretation).toMatchObject({
+      overview: expect.stringContaining("autenticación"),
+      findings: [expect.objectContaining({ stage: "auth-brute-force", technique: "T1110", evidence_event_ids: expect.arrayContaining(["evt-2"]) })],
+      limitation: expect.stringContaining("No demuestra impacto"),
+    });
     const graph = await request(app).get(`/api/v1/analyses/${id}/graph`).set(auth);
     expect(graph.body.data.edges).toEqual([
       { id: "evt-1->evt-2", source: "evt-1", target: "evt-2", relationship: "causes" },

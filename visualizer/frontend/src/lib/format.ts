@@ -28,3 +28,10 @@ export const relativeTime = (value: string) => {
   return new Intl.RelativeTimeFormat("es", { numeric: "auto" }).format(amount, unit as Intl.RelativeTimeFormatUnit);
 };
 export const duration = (start: string, end: string) => { const ms = Math.max(0, new Date(end).getTime() - new Date(start).getTime()); return ms < 1000 ? `${ms} ms` : `${(ms / 1000).toFixed(ms < 10_000 ? 1 : 0)} s`; };
+
+const eventLabels: Record<string, string> = {
+  AUTH_FAILURE: "Autenticación rechazada", AUTH_SUCCESS: "Autenticación exitosa", IDOR_ACCESS: "Objeto de otro usuario",
+  SQLI_ATTEMPT: "Consulta manipulada", PATH_TRAVERSAL_ACCESS: "Archivo señuelo leído", PATH_TRAVERSAL_ATTEMPT: "Escape de ruta bloqueado",
+  STORED_XSS_PAYLOAD: "Script almacenado", STORED_XSS_RENDER: "Script renderizado", DB_QUERY: "Consulta de base de datos", HTTP_REQUEST: "Respuesta HTTP",
+};
+export const eventLabel = (eventType: string) => eventLabels[eventType] ?? eventType.toLowerCase().replaceAll("_", " ").replace(/^./, (letter) => letter.toUpperCase());

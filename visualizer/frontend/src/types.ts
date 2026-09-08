@@ -15,7 +15,9 @@ export type NormalizedEvent = {
   payload_size?: number | null; entities: Entity[]; causes: string[]; metadata: Record<string, unknown>;
 };
 export type AttackTrace = { trace_id: string; started_at: string; ended_at: string; stages: string[]; event_ids: string[]; techniques: string[]; confidence: number; evidence: Evidence[] };
-export type AnalysisDetail = AnalysisSummary & { schema_version: string; evidence: Evidence[]; events: NormalizedEvent[]; raw_trace: AttackTrace };
+export type AnalysisFinding = { stage: string; title: string; technique?: string; explanation: string; evidence_event_ids: string[] };
+export type AnalysisInterpretation = { overview: string; findings: AnalysisFinding[]; confidence_explanation: string; graph_explanation: string; limitation: string; event_explanations: Record<string, string> };
+export type AnalysisDetail = AnalysisSummary & { schema_version: string; evidence: Evidence[]; events: NormalizedEvent[]; raw_trace: AttackTrace; interpretation?: AnalysisInterpretation };
 export type AnalysisList = { items: AnalysisSummary[]; total: number };
 export type Stats = { total: number; recent_24h: number; average_confidence: number; by_source: Record<string, number>; by_stage: Record<string, number>; by_technique: Record<string, number> };
 export type GraphNode = { id: string; type: string; sequence: number; timestamp: string; stage?: string | null; source: string };
