@@ -43,9 +43,6 @@ func (r *Runner) HealthCheck() error {
 
 // RunScenario executes a specific scenario or all scenarios if "all" is provided.
 func (r *Runner) RunScenario(scenario string) ([]models.Result, error) {
-	if _, err := r.Client.BeginTrace(); err != nil {
-		return nil, err
-	}
 	if scenario == "all" {
 		scenariosToRun := []string{"bruteforce", "idor", "sqli", "path-traversal", "stored-xss"}
 		var allResults []models.Result
@@ -62,6 +59,9 @@ func (r *Runner) RunScenario(scenario string) ([]models.Result, error) {
 }
 
 func (r *Runner) executeSingleScenario(scenario string) ([]models.Result, error) {
+	if _, err := r.Client.BeginTrace(); err != nil {
+		return nil, err
+	}
 	results := make([]models.Result, 0, 6)
 
 	addStep := func(step string, status, expected int, trace, body string) error {
