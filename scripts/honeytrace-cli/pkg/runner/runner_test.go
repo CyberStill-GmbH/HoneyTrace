@@ -127,14 +127,20 @@ func TestRunScenarioAll(t *testing.T) {
 		t.Errorf("expected exactly 10 step results for 'all', got %d", len(results))
 	}
 	if len(results) > 0 {
-		trace := results[0].TraceID
-		if len(trace) != 32 {
-			t.Fatalf("expected a 32-character campaign trace, got %q", trace)
-		}
+		tracesByScenario := make(map[string]string)
 		for _, result := range results {
-			if result.TraceID != trace {
-				t.Fatalf("all steps must share trace %q, got %q", trace, result.TraceID)
+			trace, exists := tracesByScenario[result.Scenario]
+			if !exists {
+				if len(result.TraceID) != 32 {
+					t.Fatalf("expected a 32-character trace, got %q", result.TraceID)
+				}
+				tracesByScenario[result.Scenario] = result.TraceID
+			} else if result.TraceID != trace {
+				t.Fatalf("scenario %s must share trace %q, got %q", result.Scenario, trace, result.TraceID)
 			}
+		}
+		if len(tracesByScenario) != 5 {
+			t.Fatalf("expected one trace for each of five scenarios, got %d", len(tracesByScenario))
 		}
 	}
 }

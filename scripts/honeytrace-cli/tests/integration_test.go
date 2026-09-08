@@ -103,7 +103,7 @@ func TestFullIntegrationSuite(t *testing.T) {
 		t.Errorf("Expected exactly %d results, got %d", expectedStepCount, len(results))
 	}
 
-	traceID := results[0].TraceID
+	tracesByScenario := make(map[string]string)
 	for _, res := range results {
 		if !res.Passed {
 			t.Errorf("Step %s/%s failed: status=%d, expected=%s", res.Scenario, res.Step, res.Status, res.Expected)
@@ -111,8 +111,17 @@ func TestFullIntegrationSuite(t *testing.T) {
 		if res.BodySHA256 == "" {
 			t.Errorf("Step %s/%s missing body SHA256 hash", res.Scenario, res.Step)
 		}
-		if len(traceID) != 32 || res.TraceID != traceID {
-			t.Errorf("Step %s/%s unexpected trace ID: %s", res.Scenario, res.Step, res.TraceID)
+		traceID, exists := tracesByScenario[res.Scenario]
+		if !exists {
+			if len(res.TraceID) != 32 {
+				t.Errorf("Step %s/%s invalid trace ID: %s", res.Scenario, res.Step, res.TraceID)
+			}
+			tracesByScenario[res.Scenario] = res.TraceID
+		} else if res.TraceID != traceID {
+			t.Errorf("Step %s/%s changed trace ID: %s", res.Scenario, res.Step, res.TraceID)
 		}
+	}
+	if len(tracesByScenario) != 5 {
+		t.Errorf("Expected five scenario traces, got %d", len(tracesByScenario))
 	}
 }

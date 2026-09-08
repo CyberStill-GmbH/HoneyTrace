@@ -11,7 +11,7 @@ Herramienta CLI en Go para la ejecución y verificación controlada de vectores 
 - **Modo Automatización (CI/CD):** Salida en formato `JSON Lines` (`--json`) para integración en herramientas de monitoreo o pipelines de CI/CD.
 - **Control de Seguridad:** Validación obligatoria de confirmación de entorno de laboratorio aislado (`--confirm-lab`).
 - **Verificación de evidencia:** además del código HTTP, cada ataque comprueba un marcador observable en la respuesta cuando es necesario (objeto IDOR, filas SQLi, archivo decoy y payload XSS).
-- **Reconstrucción por campaña:** todos los pasos de una ejecución comparten un `X-Trace-ID`, de modo que el Engine genera un único grafo multietapa en lugar de fragmentos por petición.
+- **Reconstrucción por tipo:** todos los pasos de un mismo escenario comparten un `X-Trace-ID`; una ejecución `all` genera cinco grafos coherentes, uno por vector, en lugar de fragmentos por petición o un único grafo mezclado.
 - **Destino validado:** sólo acepta URLs absolutas `http`/`https`; rechaza rutas locales o esquemas no HTTP.
 
 ---
