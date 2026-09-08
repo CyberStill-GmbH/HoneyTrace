@@ -3,6 +3,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma
 RUN npm ci
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/*
 RUN npx prisma generate
 COPY tsconfig.json vitest.config.ts ./
 COPY src ./src
