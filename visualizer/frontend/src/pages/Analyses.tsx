@@ -7,7 +7,11 @@ import { SeverityBadge } from "../components/SeverityBadge";
 import { api } from "../lib/api";
 import { analysisSeverity, duration, formatDate } from "../lib/format";
 
-const filters = [{ label: "Todos", value: "" }, { label: "Reconocimiento", value: "recon" }, { label: "Fuerza bruta", value: "auth-brute-force" }, { label: "Acceso confirmado", value: "auth-success" }, { label: "Administrador", value: "admin-access" }];
+const filters = [
+  { label: "Todos", value: "" }, { label: "Fuerza bruta", value: "auth-brute-force" },
+  { label: "IDOR", value: "users-idor" }, { label: "Inyección SQL", value: "products-sqli" },
+  { label: "Path traversal", value: "files-path-traversal" }, { label: "XSS almacenado", value: "orders-stored-xss" },
+];
 export function Analyses() {
   const [stage, setStage] = useState(""); const [search, setSearch] = useState(""); const [offset, setOffset] = useState(0); const limit = 20;
   const params = useMemo(() => { const value = new URLSearchParams({ limit: String(limit), offset: String(offset) }); if (stage) value.set("stage", stage); if (search.trim()) value.set("search", search.trim()); return value; }, [stage, search, offset]);

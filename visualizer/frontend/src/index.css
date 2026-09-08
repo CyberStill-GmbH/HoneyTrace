@@ -49,6 +49,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .severity::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: currentColor; }
 .severity-recon { color: var(--sev-recon); background: color-mix(in srgb, var(--sev-recon) 10%, transparent); }
 .severity-brute-force { color: var(--sev-bruteforce); background: color-mix(in srgb, var(--sev-bruteforce) 10%, transparent); }
+.severity-idor { color: var(--sev-recon); background: color-mix(in srgb, var(--sev-recon) 10%, transparent); }
+.severity-sqli { color: var(--sev-authsuccess); background: color-mix(in srgb, var(--sev-authsuccess) 10%, transparent); }
+.severity-path-traversal { color: var(--sev-bruteforce); background: color-mix(in srgb, var(--sev-bruteforce) 10%, transparent); }
+.severity-stored-xss { color: var(--sev-adminaccess); background: color-mix(in srgb, var(--sev-adminaccess) 10%, transparent); }
 .severity-auth-success { color: var(--sev-authsuccess); background: color-mix(in srgb, var(--sev-authsuccess) 10%, transparent); }
 .severity-admin-access { color: var(--sev-adminaccess); background: color-mix(in srgb, var(--sev-adminaccess) 10%, transparent); }
 .severity-info { color: var(--text-secondary); background: color-mix(in srgb, var(--sev-info) 10%, transparent); }
