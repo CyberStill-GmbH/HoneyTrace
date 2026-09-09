@@ -97,6 +97,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .source-list { padding: var(--space-2) var(--space-5) var(--space-4); }
 .source-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--border); }
 .source-row:last-child { border-bottom: 0; }
+.source-count { display: block; margin-top: .2rem; color: var(--text-muted); font-size: var(--text-xs); }
 
 .table-wrap { overflow-x: auto; }
 .data-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
