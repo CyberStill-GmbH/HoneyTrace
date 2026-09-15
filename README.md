@@ -6,6 +6,11 @@ Plataforma académica para desplegar un honeypot controlado, capturar telemetrí
 
 HoneyTrace concluyó su alcance académico y fue presentado en la feria **UNITEC 2026**. El repositorio se conserva como evidencia técnica, demostración reproducible y base para posibles extensiones de investigación.
 
+<p align="center">
+  <img src="CCCertificado.png" alt="Aprobado por el Centro Cultural de Ciberseguridad UNI" width="900">
+</p>
+<br>
+
 ## Equipo
 
 | Integrante | Código académico | Rol |
