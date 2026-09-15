@@ -6,6 +6,14 @@ Plataforma académica para desplegar un honeypot controlado, capturar telemetrí
 
 HoneyTrace concluyó su alcance académico y fue presentado en la feria **UNITEC 2026**. El repositorio se conserva como evidencia técnica, demostración reproducible y base para posibles extensiones de investigación.
 
+## Equipo
+
+| Integrante | Código académico | Rol |
+| --- | --- | --- |
+| Cesar Adrian Guevara Salcedo | 20221016A | Líder del proyecto |
+| Joel Alexander Ramos Quiroz | 20244624H | Integrante |
+| Jhojan Neira Herrera | 20240412F | Integrante |
+
 ## Capturas del proyecto
 
 ### Acceso privado con GitHub

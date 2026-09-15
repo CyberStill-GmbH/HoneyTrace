@@ -4,6 +4,14 @@
 
 HoneyTrace completó su alcance académico y fue presentado en la feria **UNITEC 2026**. A partir de este cierre, el repositorio funciona como evidencia del resultado, documentación reproducible y punto de partida para trabajos posteriores.
 
+## Integrantes
+
+| Integrante | Código académico | Rol |
+| --- | --- | --- |
+| Cesar Adrian Guevara Salcedo | 20221016A | Líder del proyecto |
+| Joel Alexander Ramos Quiroz | 20244624H | Integrante |
+| Jhojan Neira Herrera | 20240412F | Integrante |
+
 ## Evidencia visual de la demostración
 
 - [Acceso privado mediante GitHub](media/honeytrace-inicio-sesion-github.jpeg).
