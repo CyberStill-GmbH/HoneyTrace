@@ -4,14 +4,13 @@
 
 HoneyTrace completó su alcance académico y fue presentado en la feria **UNITEC 2026**. A partir de este cierre, el repositorio funciona como evidencia del resultado, documentación reproducible y punto de partida para trabajos posteriores.
 
-## Evidencia de la demostración
+## Evidencia visual de la demostración
 
-- [Video de la visualización final](media/honeytrace-visualizacion-unitec-2026.mp4).
-- Formato: MP4.
-- Tamaño aproximado: 75 MB.
-- SHA-256: `B6A12D129B5EE7316FFFE55504AE6C79E68C6A6FF2EBEC1BE0749504980DD0B6`.
+- [Acceso privado mediante GitHub](media/honeytrace-inicio-sesion-github.jpeg).
+- [Explorador 3D de reconstrucción causal](media/honeytrace-reconstruccion-causal-3d.jpeg).
+- [Gestión de dispositivos y tokens de ingestión](media/honeytrace-gestion-dispositivos-tokens.jpeg).
 
-El archivo se administra mediante Git LFS para evitar incorporarlo directamente al historial ordinario de Git.
+Las capturas documentan la interfaz presentada: autenticación por cuenta, análisis causal de eventos y asociación segura del Engine con un dispositivo de laboratorio.
 
 ## Resultado entregado
 
