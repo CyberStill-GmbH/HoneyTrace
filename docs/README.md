@@ -8,7 +8,9 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 ## Cierre y demostración
 
 - [Registro de cierre de UNITEC 2026](cierre-unitec-2026.md)
-- [Video de la visualización final](media/honeytrace-visualizacion-unitec-2026.mp4)
+- [Acceso privado con GitHub](media/honeytrace-inicio-sesion-github.jpeg)
+- [Reconstrucción causal 3D](media/honeytrace-reconstruccion-causal-3d.jpeg)
+- [Gestión de dispositivos y tokens](media/honeytrace-gestion-dispositivos-tokens.jpeg)
 
 ## Investigación
 

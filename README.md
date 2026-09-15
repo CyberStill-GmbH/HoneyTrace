@@ -6,11 +6,19 @@ Plataforma académica para desplegar un honeypot controlado, capturar telemetrí
 
 HoneyTrace concluyó su alcance académico y fue presentado en la feria **UNITEC 2026**. El repositorio se conserva como evidencia técnica, demostración reproducible y base para posibles extensiones de investigación.
 
-### Visualización del proyecto
+## Capturas del proyecto
 
-[▶ Ver la demostración en video (MP4, 75 MB)](docs/media/honeytrace-visualizacion-unitec-2026.mp4)
+### Acceso privado con GitHub
 
-El video muestra la experiencia final de uso y la visualización de los resultados generados por la plataforma. Su integridad puede comprobarse con SHA-256 `B6A12D129B5EE7316FFFE55504AE6C79E68C6A6FF2EBEC1BE0749504980DD0B6`.
+![Pantalla de inicio de sesión de HoneyTrace con acceso mediante GitHub](docs/media/honeytrace-inicio-sesion-github.jpeg)
+
+### Reconstrucción causal interactiva
+
+![Visualización 3D de la reconstrucción causal de ataques en HoneyTrace](docs/media/honeytrace-reconstruccion-causal-3d.jpeg)
+
+### Gestión de dispositivos y tokens de ingestión
+
+![Pantalla de gestión de dispositivos y tokens de ingestión de HoneyTrace](docs/media/honeytrace-gestion-dispositivos-tokens.jpeg)
 
 ## Alcance entregado
 
