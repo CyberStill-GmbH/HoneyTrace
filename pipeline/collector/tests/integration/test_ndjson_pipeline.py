@@ -1,6 +1,6 @@
 import json
 
-from collector.event_collector import collect_ndjson
+from pipeline.collector.event_collector import collect_ndjson
 
 
 def test_ndjson_pipeline_preserves_trace_for_correlation():

@@ -1,9 +1,14 @@
 # Documentación de HoneyTrace
 
-> [!IMPORTANT]
-> HoneyTrace se encuentra en desarrollo activo. La arquitectura, los requisitos, los sprints y los procedimientos de prueba pueden cambiar conforme avance la investigación. Una tarea solo se considera terminada cuando aparece marcada con `[x]` y cumple la Definition of Done.
+> [!NOTE]
+> HoneyTrace cerró su alcance académico y fue presentado en la feria UNITEC 2026. Esta documentación se conserva como registro técnico final; los documentos de planificación histórica pueden contener propuestas que quedaron fuera del alcance entregado.
 
 Utiliza este archivo únicamente como punto de entrada hacia la documentación correspondiente.
+
+## Cierre y demostración
+
+- [Registro de cierre de UNITEC 2026](cierre-unitec-2026.md)
+- [Video de la visualización final](media/honeytrace-visualizacion-unitec-2026.mp4)
 
 ## Investigación
 
@@ -56,7 +61,7 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 
 ## Despliegue y operación
 
-- [Plan de prueba en OTI UNI](oti_uni_test_plan.md)
+- [Plan de prueba en OTI UNI — archivado](oti_uni_test_plan.md)
 - [Documentación de la base de datos](../honeypot/db_documentation.md)
 - [README del backend honeypot](../honeypot/README.md)
 - [Política de seguridad](../SECURITY.md)
@@ -65,13 +70,15 @@ Utiliza este archivo únicamente como punto de entrada hacia la documentación c
 
 ## Componentes implementados
 
-- [Collector](../collector/README.md)
-- [Normalizer](../normalizer/README.md)
-- [Correlation Engine Rust](../engine/README.md)
-- [Método de reconstrucción](../engine/metodo-seleccionado.md)
+- [Pipeline de análisis](../pipeline/README.md)
+- [Collector](../pipeline/collector/README.md)
+- [Normalizer](../pipeline/normalizer/README.md)
+- [Correlation Engine Rust](../pipeline/engine/README.md)
+- [Método de reconstrucción](../pipeline/engine/metodo-seleccionado.md)
 - [Schemas de entrada y salida](../schemas/README.md)
-- [Backend del Visualizer](../visualizer/README.md)
-- [Modelo de datos del Visualizer](../visualizer/DB.md)
+- [Backend del Visualizer](../visualizer/backend/README.md)
+- [Frontend del Visualizer](../visualizer/frontend/README.md)
+- [Modelo de datos del Visualizer](../visualizer/backend/DB.md)
 
 ## Proyecto
 

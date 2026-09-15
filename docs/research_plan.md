@@ -22,12 +22,15 @@ La documentación canónica de investigación se mantiene en `docs/investigacion
 - CPU, RAM, temperatura, disco y pérdida de eventos cuando se use Raspberry Pi.
 - Hashes de artefactos, desviaciones y limitaciones.
 
-## Estado al 19 de agosto de 2026
+## Estado al cierre de UNITEC 2026
 
 - [x] Problema, objetivos, preguntas y metodología tienen borrador.
 - [x] Arquitectura, requisitos, ADR iniciales y estrategia de pruebas tienen borrador.
-- [ ] Estado del arte con 5–10 referencias y `referencias.bib`.
-- [ ] Directorios `research/`, `schemas/` y fixtures reales.
-- [ ] Cinco escenarios con ground truth ejecutable.
-- [ ] Pipeline y resultados cuantitativos.
-- [ ] Validación Raspberry Pi y prueba OTI UNI.
+- [x] Estado del arte y bibliografía base documentados en `referencias.bib`.
+- [x] Contratos de eventos y trazas versionados en `schemas/`.
+- [x] Cinco escenarios disponibles en la CLI de laboratorio y pipeline integrado hasta la visualización.
+- [x] Evidencia funcional presentada en UNITEC 2026.
+- [ ] Comparación cuantitativa ampliada contra *ground truth* versionado — extensión posterior al cierre.
+- [ ] Validación física en Raspberry Pi y prueba OTI UNI — extensión posterior al cierre, no ejecutada en esta entrega.
+
+El alcance académico se considera finalizado. Las dos extensiones abiertas se mantienen como oportunidades de investigación y no como requisitos pendientes del producto presentado.

@@ -25,7 +25,7 @@ No existe, dentro del alcance evaluado, una arquitectura ligera y desplegable en
 
 - **Investigativa:** aporta evidencia empírica sobre qué tan bien puede automatizarse la reconstrucción de ataques a partir de telemetría de honeypot, y qué features/heurísticas de correlación son más informativas.
 - **Práctica:** un prototipo funcional permite comparar el enfoque experimental frente al comportamiento de un SOC tradicional (Wazuh) sobre el mismo tráfico.
-- **Académica:** el proyecto se presenta como entregable en UNICTEC, por lo que debe ser reproducible, medible y defendible con datos, no solo una demo visual.
+- **Académica:** el proyecto se presentó como entregable en UNITEC 2026, por lo que debía ser reproducible, medible y defendible con datos, no solo una demo visual.
 
 ## Alcance del problema en esta iteración (≈1 mes)
 

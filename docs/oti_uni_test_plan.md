@@ -1,10 +1,13 @@
 # Plan de prueba controlada en OTI UNI
 
+> [!NOTE]
+> **Documento archivado.** Esta propuesta no se ejecutó como parte del cierre académico presentado en UNITEC 2026. Se conserva como referencia para una futura validación institucional y no representa una actividad pendiente del producto entregado.
+
 ## Ventana propuesta
 
 **Fecha:** jueves 10 de septiembre de 2026  
 **Horario:** 09:00–13:00, America/Lima  
-**Estado:** propuesta pendiente de confirmación escrita por OTI UNI.
+**Estado final:** no ejecutado; archivado como extensión posterior al proyecto.
 
 No se conectará el equipo si faltan autorización, responsable institucional presente, segmento de red definido o procedimiento de retiro aprobado.
 

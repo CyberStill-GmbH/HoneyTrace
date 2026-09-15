@@ -37,5 +37,5 @@ Vista física de dónde corre cada componente.
 
 - Solo las **pruebas de integración final** requieren la Raspberry Pi física; el desarrollo diario del Engine, API y Frontend se hace en los PCs del equipo (ver `docs/testing/estrategia-de-pruebas.md`).
 - El honeypot corre en una red Docker aislada del resto de los servicios (ver `docs/arquitectura/threat-model.md`).
-- La API y el Frontend, si se despliegan para la demo de UNICTEC, pueden alojarse fuera de la Raspberry (p. ej. en un laptop del equipo) para no competir por recursos con el pipeline de telemetría.
+- La API y el frontend de la demo de UNITEC 2026 pueden alojarse fuera de la Raspberry (por ejemplo, en una laptop del equipo) para no competir por recursos con el pipeline de telemetría.
 - Para la prueba propuesta en OTI UNI, el SSD contiene datos y logs, se monta por UUID y se valida antes del despliegue. El Wazuh manager, la API y el frontend deben ejecutarse fuera de la Raspberry si comprometen el margen de 2 GB.

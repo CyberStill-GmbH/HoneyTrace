@@ -6,7 +6,7 @@ Investigación aplicada de carácter **experimental**, basada en la construcció
 
 ## Fases
 
-1. **Diseño e implementación del MVP**: honeypot → telemetría → `collector/` → `normalizer/` → correlation engine Rust → attack reconstruction (ver `docs/requisitos/requisitos.md`). Collector y Normalizer son procesos lógicos separados; el Engine Rust solo consume `NormalizedEvent`.
+1. **Diseño e implementación del MVP**: honeypot → telemetría → `pipeline/collector/` → `pipeline/normalizer/` → correlation engine Rust → attack reconstruction (ver `docs/requisitos/requisitos.md`). Collector y Normalizer son procesos lógicos separados; el Engine Rust solo consume `NormalizedEvent`.
 2. **Definición de escenarios de ataque controlados**: cada escenario se documenta en `docs/testing/escenarios-de-ataque.md`, con su *ground truth* (secuencia real de acciones ejecutadas).
 3. **Ejecución de experimentos**: cada ejecución de un escenario contra HoneyTrace (y en paralelo contra Wazuh) se registra en `research/experiments/`.
 4. **Recolección de datos**: telemetría cruda, eventos normalizados y `AttackTrace` producido se guardan como datasets versionados en `research/datasets/` (o como fixtures sintéticas en `tests/fixtures/` para desarrollo sin hardware).

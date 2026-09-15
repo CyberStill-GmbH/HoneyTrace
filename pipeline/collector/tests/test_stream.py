@@ -1,6 +1,6 @@
 import json
 
-from collector.event_collector import collect_stream
+from pipeline.collector.event_collector import collect_stream
 
 
 def test_collect_stream_keeps_valid_events_when_one_line_is_bad():

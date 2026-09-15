@@ -70,7 +70,7 @@ services:
 
   engine:
     build:
-      context: ../../engine
+      context: ../../pipeline/engine
       dockerfile: Dockerfile
     container_name: honeytrace-rpi-engine
     restart: unless-stopped
