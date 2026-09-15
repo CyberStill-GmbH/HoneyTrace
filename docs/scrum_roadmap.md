@@ -1,16 +1,19 @@
 # Roadmap Scrum — índice ejecutivo
 
-**Horizonte:** 17 de agosto al 10 de septiembre de 2026  
+**Horizonte ejecutado:** 17 de agosto a septiembre de 2026
+
 **Equipo:** LT (Líder Técnico), IA e IB (integrantes junior)  
-**Hito:** piloto controlado propuesto en OTI UNI el 10 de septiembre, sujeto a autorización.
+**Hito final:** proyecto presentado en la feria UNITEC 2026.
 
 ## Estado
 
 - [x] Sprint 0: base Docker/PostgreSQL/Alembic/FastAPI verificada; quedan deudas de estructura y validación independiente.
 - [x] Sprint 1: cinco APIs vulnerables contenidas e instrumentadas.
-- [ ] Sprint 2: Collector, Normalizer y primer `AttackTrace` integrado de extremo a extremo (el núcleo Rust y sus pruebas ya existen; falta conectar el dataset completo y medir contra ground truth).
-- [ ] Sprint 3: cinco escenarios, Raspberry Pi/SSD y autorización OTI.
-- [ ] Sprint 4: regresión, ensayo, Go/No-Go, campo y cierre.
+- [x] Sprint 2: Collector, Normalizer y `AttackTrace` integrados de extremo a extremo.
+- [x] Sprint 3: escenarios de laboratorio, CLI Go y automatización de Raspberry Pi entregados.
+- [x] Sprint 4: integración del visualizador, demostración y cierre documental para UNITEC 2026.
+
+La prueba física en OTI UNI y la evaluación cuantitativa ampliada contra *ground truth* no formaron parte del cierre presentado. Se conservaron como extensiones de investigación, sin atribuirles ejecución.
 
 ## Sprints canónicos
 
@@ -22,13 +25,13 @@
 - [Definition of Ready](scrum/definition-of-ready.md).
 - [Definition of Done](scrum/definition-of-done.md).
 
-## Reglas de planificación
+## Reglas de planificación históricas
 
 - LT toma arquitectura, Engine, aislamiento, vulnerabilidades de mayor riesgo e integración.
 - IA e IB reciben tareas guiadas de máximo un día, con ejemplos, pairing y revisión del LT.
 - La ruta crítica es: contrato → APIs → eventos → correlación → ground truth → Raspberry → autorización → ensayo → campo.
 - Wazuh, API de consulta y visualización son extensiones; no desplazan el MVP investigativo, la seguridad ni las pruebas.
-- El 9 de septiembre se decide Go/No-Go. Falta de autorización, aislamiento o estabilidad implica reprogramar la prueba.
+- El Go/No-Go previsto para OTI UNI queda archivado con su plan original; no condicionó la presentación final en UNITEC 2026.
 
 ## Ceremonias
 

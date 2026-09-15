@@ -5,7 +5,7 @@ Estado: Aceptado para el MVP; API y Frontend planificados
 
 ## Contexto
 
-HoneyTrace debe entregarse en aproximadamente un mes para UNICTEC. El equipo tiene niveles de experiencia distintos y un integrante trabajará remoto, sin acceso directo a la Raspberry Pi. Se necesita una estructura de componentes clara, con un stack por defecto que permita empezar a trabajar de inmediato, dejando explícito que no es una decisión definitiva.
+HoneyTrace debía entregarse en aproximadamente un mes para UNITEC 2026. El equipo tenía niveles de experiencia distintos y un integrante trabajaría remoto, sin acceso directo a la Raspberry Pi. Se necesitaba una estructura de componentes clara, con un stack por defecto que permitiera empezar a trabajar de inmediato, dejando explícito que no era una decisión definitiva.
 
 ## Decisión
 

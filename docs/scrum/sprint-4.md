@@ -1,14 +1,17 @@
 # Sprint 4 — Integración, campo y cierre
 
+> [!NOTE]
+> Cierre histórico: la integración, la demostración y la documentación se completaron para UNITEC 2026. La prueba propuesta en OTI UNI no se ejecutó y quedó archivada como una extensión independiente.
+
 ## Duración
 
 6–10 de septiembre de 2026.
 
-## Objetivo
+## Objetivo planificado
 
 Congelar el MVP, ensayarlo, ejecutar la prueba autorizada en OTI UNI y preservar evidencia reproducible.
 
-## Backlog por fecha
+## Backlog histórico por fecha
 
 - [ ] **6 sep — Equipo:** congelar alcance; API de consulta y frontend serán mínimos y no desplazarán seguridad ni evaluación.
 - [ ] **6–7 sep — IA:** ejecutar regresión completa y organizar fixtures, ground truth y resultados.
@@ -25,6 +28,10 @@ Congelar el MVP, ensayarlo, ejecutar la prueba autorizada en OTI UNI y preservar
 ## Criterio de salida
 
 La prueba termina sin impacto institucional, con evidencia íntegra, inventario cerrado y resultados suficientes para responder las preguntas de investigación. Si hay No-Go, se documentan las causas y se ejecuta el experimento equivalente en laboratorio.
+
+## Resultado real
+
+El proyecto cerró con la plataforma integrada, los escenarios reproducibles de laboratorio, la visualización final y su presentación en UNITEC 2026. El piloto OTI UNI no se atribuye como realizado.
 
 ## Funcionalidad que no bloquea el hito
 

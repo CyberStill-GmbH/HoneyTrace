@@ -32,7 +32,7 @@ def test_pi_compose_is_resource_limited_and_uses_ssd() -> None:
     assert "restart: unless-stopped" in compose
     assert "HONEYTRACE_INGEST_TOKEN_FILE" in compose
     assert "HONEYTRACE_API_URL" in compose
-    assert "../../engine" in compose
+    assert "../../pipeline/engine" in compose
 
 
 def test_installer_requires_private_ingest_configuration() -> None:

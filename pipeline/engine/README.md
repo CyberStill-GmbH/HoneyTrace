@@ -50,9 +50,9 @@ Los resultados de esos papers dependen de sus datasets, instrumentación y amena
 ## Desarrollo local
 
 ```powershell
-cargo fmt --manifest-path engine/Cargo.toml -- --check
-cargo test --manifest-path engine/Cargo.toml
-cargo run --manifest-path engine/Cargo.toml
+cargo fmt --manifest-path pipeline/engine/Cargo.toml -- --check
+cargo test --manifest-path pipeline/engine/Cargo.toml
+cargo run --manifest-path pipeline/engine/Cargo.toml
 ```
 
 El servicio requiere `HONEYTRACE_EVENTS_FILE`, `HONEYTRACE_STATE_FILE`,
@@ -60,6 +60,6 @@ El servicio requiere `HONEYTRACE_EVENTS_FILE`, `HONEYTRACE_STATE_FILE`,
 El token se lee desde un archivo y nunca se imprime. `HONEYTRACE_RUN_ONCE=true`
 permite una ejecución única para diagnóstico; en Raspberry se ejecuta continuamente.
 
-La integración continua ejecuta `fmt`, `check` y `test`. El siguiente paso es implementar un módulo por vez, comenzando por validación del contrato y después correlación determinista; no se debe mezclar el motor con `collector/` ni `normalizer/`.
+La integración continua ejecuta `fmt`, `check` y `test`. Aunque los tres servicios viven bajo `pipeline/`, el Engine no incorpora responsabilidades de `collector/` ni `normalizer/`.
 
 La evaluación comparativa y el método seleccionado están documentados en [`metodo-seleccionado.md`](metodo-seleccionado.md). Ese documento es la especificación de diseño; la implementación actual cubre el primer camino determinista.

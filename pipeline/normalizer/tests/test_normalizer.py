@@ -1,6 +1,6 @@
 import pytest
 
-from normalizer.normalizer import EventValidationError, normalize_event
+from pipeline.normalizer.normalizer import EventValidationError, normalize_event
 
 
 def event(**overrides):

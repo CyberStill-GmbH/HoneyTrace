@@ -4,7 +4,7 @@ import argparse
 import json
 import sys
 
-from collector.event_collector import collect_stream
+from pipeline.collector.event_collector import collect_stream
 
 
 def main() -> int:

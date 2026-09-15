@@ -10,7 +10,7 @@ Dejar una base reproducible, acordar la arquitectura y registrar honestamente qu
 
 ## Backlog verificado
 
-- [x] Crear la estructura base (`honeypot/`, `collector/`, `normalizer/`, `engine/`, `schemas/`, `tests/` y `scripts/`). `api/`, `frontend/` y `research/` permanecen como extensiones planificadas.
+- [x] Crear la estructura base; en el cierre, Collector, Normalizer y Engine quedaron agrupados bajo `pipeline/` para separar la cadena analítica del honeypot y del visualizador.
 - [x] Redactar planteamiento, objetivos y preguntas de investigación.
 - [x] Redactar el primer borrador de requisitos.
 - [x] Redactar y revisar ADR 0001–0003; sus estados vigentes están en `docs/adr/README.md`.

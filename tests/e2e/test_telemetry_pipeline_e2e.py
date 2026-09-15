@@ -7,7 +7,7 @@ from uuid import uuid4
 
 import httpx
 
-from collector.event_collector import collect_stream
+from pipeline.collector.event_collector import collect_stream
 
 
 BASE_URL = os.getenv("HONEYPOT_BASE_URL", "http://127.0.0.1:8000")

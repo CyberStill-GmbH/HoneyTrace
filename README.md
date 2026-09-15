@@ -1,40 +1,54 @@
 # HoneyTrace
 
-Plataforma académica de investigación para desplegar un honeypot controlado, capturar telemetría de ataques y analizar técnicas observadas sin exponer activos institucionales.
+Plataforma académica para desplegar un honeypot controlado, capturar telemetría de ataques y reconstruir causalmente las técnicas observadas sin exponer activos institucionales.
 
-## Estado verificado al 21 de agosto de 2026
+## Proyecto finalizado — UNITEC 2026
 
-- [x] PostgreSQL 16 en Docker Compose con healthcheck.
-- [x] Modelos SQLAlchemy y migración inicial de Alembic.
-- [x] Tablas `users`, `products`, `files`, `orders`, `notes` y `order_items` verificadas.
-- [x] Backend FastAPI ejecutándose y endpoint `/health` operativo.
-- [x] APIs vulnerables `/auth`, `/users`, `/products`, `/files` y `/orders` con ataques HTTP reales de laboratorio.
+HoneyTrace concluyó su alcance académico y fue presentado en la feria **UNITEC 2026**. El repositorio se conserva como evidencia técnica, demostración reproducible y base para posibles extensiones de investigación.
+
+### Visualización del proyecto
+
+[▶ Ver la demostración en video (MP4, 75 MB)](docs/media/honeytrace-visualizacion-unitec-2026.mp4)
+
+El video muestra la experiencia final de uso y la visualización de los resultados generados por la plataforma. Su integridad puede comprobarse con SHA-256 `B6A12D129B5EE7316FFFE55504AE6C79E68C6A6FF2EBEC1BE0749504980DD0B6`.
+
+## Alcance entregado
+
+- [x] Honeypot FastAPI con PostgreSQL 16 y APIs vulnerables contenidas para pruebas autorizadas.
 - [x] Captura, normalización y emisión NDJSON de eventos de seguridad.
-- [x] Núcleo determinista inicial del Engine Rust: correlación, procedencia, reconstrucción por reglas y scoring.
-- [x] Pruebas unitarias, integración, E2E del honeypot y contratos físicos en CI; carga y aceptación física final siguen pendientes.
-- [x] API privada de resultados con Prisma, OAuth GitHub, estadísticas, filtros, grafo causal y exportación JSON/NDJSON.
-- [x] Panel frontend local en React, Vite y Tailwind con dashboard, historial, dispositivos y Attack Explorer 3D.
-- [ ] Despliegue en Raspberry Pi y prueba de campo en OTI UNI.
+- [x] Engine determinista en Rust para correlación, reconstrucción por reglas, procedencia y scoring.
+- [x] API privada de resultados con Prisma, OAuth de GitHub, estadísticas, filtros, grafo causal y exportación JSON/NDJSON.
+- [x] Frontend local en React, Vite y Tailwind con dashboard, historial, dispositivos y Attack Explorer 3D.
+- [x] CLI de laboratorio en Go para ejecutar escenarios controlados contra el honeypot.
+- [x] Pruebas unitarias, de integración, E2E y contratos de despliegue incluidas en el repositorio.
+- [x] Scripts de instalación y arranque automático para Raspberry Pi 4 Model B de 2 GB con SSD SATA externo.
+- [x] Demostración final presentada en UNITEC 2026.
 
-Que un archivo o modelo exista no significa que su funcionalidad esté terminada. Los elementos se marcan con `[x]` únicamente cuando existe evidencia reproducible.
+La prueba física propuesta en OTI UNI y la validación cuantitativa ampliada contra *ground truth* se archivaron como extensiones de investigación; no se presentan como actividades ejecutadas durante el cierre académico.
 
-## Documentación del proyecto
+## Documentación
 
-- [Índice general de documentación](docs/README.md): punto de entrada y rutas de lectura según el perfil.
-- [Roadmap Scrum](docs/scrum_roadmap.md): sprints, responsables, criterios de aceptación y carga de trabajo.
-- [Plan de investigación](docs/research_plan.md): objetivos, preguntas, datos, métricas y entregables académicos.
-- [Plan de prueba OTI UNI](docs/oti_uni_test_plan.md): hardware, seguridad, ejecución y criterios de salida.
-- [Arquitectura de base de datos](honeypot/db_documentation.md).
-- [ADR del stack de persistencia](docs/adr/adr_001_python_db_stack.md).
+- [Cierre del proyecto y evidencia de UNITEC 2026](docs/cierre-unitec-2026.md).
+- [Índice general de documentación](docs/README.md).
+- [Arquitectura y flujo de datos](docs/arquitectura/arquitectura.md).
+- [Roadmap Scrum y cierre](docs/scrum_roadmap.md).
+- [Plan de investigación](docs/research_plan.md).
+- [Matriz de pruebas](docs/testing/matriz-de-pruebas.md).
+- [CLI de laboratorio](scripts/honeytrace-cli/README.md).
+- [Instalación en Raspberry Pi](scripts/raspberry-pi/README.md).
+- [Plan OTI UNI archivado](docs/oti_uni_test_plan.md).
 - [Política de seguridad](SECURITY.md).
-- [CLI de laboratorio](scripts/honeytrace-cli/README.md): herramienta Go para ataques reales controlados contra el honeypot autorizado.
-- [Instalación en Raspberry Pi](scripts/raspberry-pi/README.md): SSD SATA por UUID, límites para 2 GB y arranque automático.
 
-## Hito de campo
+## Ejecución local
 
-Se propone realizar la prueba controlada en OTI UNI el **10 de septiembre de 2026, de 09:00 a 13:00 (America/Lima)**. La fecha y el horario deben ser confirmados por OTI UNI; no se desplegará el equipo sin autorización, alcance de red y responsable institucional definidos.
+Cada componente conserva sus instrucciones específicas en su propio README:
 
-## Arranque local
+- [Honeypot](honeypot/README.md).
+- [Pipeline de análisis](pipeline/README.md): separación entre [Collector](pipeline/collector/README.md), [Normalizer](pipeline/normalizer/README.md) y [Correlation Engine](pipeline/engine/README.md).
+- [Backend del Visualizer](visualizer/backend/README.md).
+- [Frontend del Visualizer](visualizer/frontend/README.md).
+
+Para iniciar únicamente el honeypot:
 
 ```powershell
 cd C:\projects\HoneyTrace\honeypot
@@ -42,4 +56,4 @@ docker compose up -d --build
 docker compose ps
 ```
 
-El backend queda disponible en `http://localhost:8000/health`. Este proyecto contiene vulnerabilidades deliberadas y solo debe ejecutarse en redes aisladas y autorizadas.
+El backend del honeypot queda disponible en `http://localhost:8000/health`. HoneyTrace contiene vulnerabilidades deliberadas: debe ejecutarse exclusivamente en entornos locales, aislados y autorizados.

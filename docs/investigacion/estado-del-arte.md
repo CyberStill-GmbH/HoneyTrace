@@ -37,11 +37,11 @@ La literatura revisada hasta ahora no ofrece un sistema ligero, desplegable en h
 
 ## 7. Preparación del engine Rust
 
-El directorio `engine/` implementa el primer camino determinista y mantiene puertos para fases avanzadas. La división `ingest → correlate → provenance → reconstruct → scoring` sigue los retos de streaming, orden parcial y relaciones explícitas descritos por Han et al. [han2018provenance]. SLEUTH fundamenta el grafo de dependencias y la reconstrucción en tiempo real [hossain2017sleuth]; ORTHRUS fundamenta la poda conservadora, la representación temporal y la atribución [jiang2025orthrus]. ALchemist respalda guardar la fuente y razón de cada evidencia al fusionar logs [alchemist].
+El directorio `pipeline/engine/` implementa el primer camino determinista y mantiene puertos para fases avanzadas. La división `ingest → correlate → provenance → reconstruct → scoring` sigue los retos de streaming, orden parcial y relaciones explícitas descritos por Han et al. [han2018provenance]. SLEUTH fundamenta el grafo de dependencias y la reconstrucción en tiempo real [hossain2017sleuth]; ORTHRUS fundamenta la poda conservadora, la representación temporal y la atribución [jiang2025orthrus]. ALchemist respalda guardar la fuente y razón de cada evidencia al fusionar logs [alchemist].
 
 Esta evidencia no autoriza a afirmar un porcentaje de éxito general: cada publicación evalúa escenarios y datasets propios. HoneyTrace deberá medir precisión, cobertura, falsos positivos, latencia, memoria y tamaño de salida en sus ataques reales, con ground truth versionado.
 
-La evaluación metodológica completa y la decisión de iniciar con un pipeline determinista híbrido están en [`engine/metodo-seleccionado.md`](../../engine/metodo-seleccionado.md). OmegaLog aporta la reconciliación entre contexto de aplicación y auditoría [omegalog], mientras ProvCon refuerza la necesidad de transformar observaciones en una representación de procedencia explicable [provcon2025].
+La evaluación metodológica completa y la decisión de iniciar con un pipeline determinista híbrido están en [`pipeline/engine/metodo-seleccionado.md`](../../pipeline/engine/metodo-seleccionado.md). OmegaLog aporta la reconciliación entre contexto de aplicación y auditoría [omegalog], mientras ProvCon refuerza la necesidad de transformar observaciones en una representación de procedencia explicable [provcon2025].
 
 ## Pendiente de completar
 
